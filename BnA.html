@@ -1,0 +1,126 @@
+<header>
+    <div class="page-header navbar-default navbar-fixed-top" align="center">
+        <button class="navbar-toggle btn-lg backBtn" type="button" id="myMenuBtn" onclick="app.onBackKeyDown();">
+            <span class="glyphicon glyphicon-circle-arrow-left"></span>
+        </button>
+        <h2 class="noPushyHeadSearchText">Wish Them</h2>
+    </div>
+</header>
+<br/>
+<br/>
+<div class="container homeContent" align="center">
+    <div class='panel-group' id='wishes'>
+        <div class='panel panel-default'>
+            <div class='panel-heading'>
+                <h4 class='panel-title'>
+                    <a data-toggle='collapse' data-parent='#wishes' href='#subWishToday' class='eventBdayFont'>
+                        Today
+                    </a>
+                </h4>
+            </div>
+            <div id='subWishToday' class='panel-collapse collapse in'>
+                <div class='panel-body'>
+                    <div class='panel-group' id='todayWish'>
+                        <div class='panel panel-info'>
+                            <div class='panel-heading'>
+                                <h4 class='panel-title'>
+                                    <a data-toggle='collapse' data-parent='#todayWish' href='#todayBday' class='eventBdayFont'>
+                                        Birthday
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id='todayBday' class='panel-collapse collapse in'>
+                            </div>
+                        </div>
+                        <div class='panel panel-info'>
+                            <div class='panel-heading'>
+                                <h4 class='panel-title'>
+                                    <a data-toggle='collapse' data-parent='#todayWish' href='#todayAsary' class='eventBdayFont'>
+                                        Anniversary
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id='todayAsary' class='panel-collapse collapse'>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class='panel panel-default'>
+            <div class='panel-heading'>
+                <h4 class='panel-title'>
+                    <a data-toggle='collapse' data-parent='#wishes' href='#subWishTmr' class='eventBdayFont'>
+                        Tomorrow
+                    </a>
+                </h4>
+            </div>
+            <div id='subWishTmr' class='panel-collapse collapse'>
+                <div class='panel-body'>
+                    <div class='panel-group' id='tmrWish'>
+                        <div class='panel panel-info'>
+                            <div class='panel-heading'>
+                                <h4 class='panel-title'>
+                                    <a data-toggle='collapse' data-parent='#tmrWish' href='#tmrBday' class='eventBdayFont'>
+                                        Birthday
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id='tmrBday' class='panel-collapse collapse in'>
+                            </div>
+                        </div>
+                        <div class='panel panel-info'>
+                            <div class='panel-heading'>
+                                <h4 class='panel-title'>
+                                    <a data-toggle='collapse' data-parent='#tmrWish' href='#tmrAsary' class='eventBdayFont'>
+                                        Anniversary
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id='tmrAsary' class='panel-collapse collapse'>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class='panel panel-default'>
+            <div class='panel-heading'>
+                <h4 class='panel-title'>
+                    <a data-toggle='collapse' data-parent='#wishes' href='#subWishDayAfter' class='eventBdayFont'>
+                        Day After
+                    </a>
+                </h4>
+            </div>
+            <div id='subWishDayAfter' class='panel-collapse collapse'>
+                <div class='panel-body'>
+                    <div class='panel-group' id='dayAfterWish'>
+                        <div class='panel panel-info'>
+                            <div class='panel-heading'>
+                                <h4 class='panel-title'>
+                                    <a data-toggle='collapse' data-parent='#dayAfterWish' href='#dayAfterBday' class='eventBdayFont'>
+                                        Birthday
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id='dayAfterBday' class='panel-collapse collapse in'>
+                            </div>
+                        </div>
+                        <div class='panel panel-info'>
+                            <div class='panel-heading'>
+                                <h4 class='panel-title'>
+                                    <a data-toggle='collapse' data-parent='#dayAfterWish' href='#dayAfterAsary' class='eventBdayFont'>
+                                        Anniversary
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id='dayAfterAsary' class='panel-collapse collapse'>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="js/BnA.js"></script>

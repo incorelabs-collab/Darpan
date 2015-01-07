@@ -1,0 +1,29 @@
+<header>
+    <div class="indexPageHeader navbar-default">
+        <div align="center">
+            <img src="img/logo.png" class="img-responsive" id="appLogo">
+            <h2 id="indexHeaderText">E.G.A.</h2>
+        </div>
+    </div>
+</header>
+<div class="container homeContent" align="center">
+    <form role="form">
+        <div class="form-group">
+            <label for="username">
+                <h4>Username</h4>
+            </label>
+            <input type="text" class="form-control" id="username" placeholder="Enter your username . .. ...">
+        </div>
+        <div class="form-group">
+            <label for="password">
+                <h4>Password</h4>
+            </label>
+            <input type="password" class="form-control" id="password" placeholder="Enter your password . .. ...">
+        </div>
+        <br />
+        <button type="button" class="btn btn-primary btn-lg btn-block" id="btn_login"
+                onclick="pageLogin.validateCredentials();">Login
+        </button>
+    </form>
+</div>
+<script src="js/login.js"></script>
