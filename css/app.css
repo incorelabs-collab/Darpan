@@ -268,3 +268,87 @@ a:hover {
         padding-top: 4.5em;
     }
 }
+
+/* Parents Page */
+.detailParentName {
+    padding-bottom: 0.5em;
+    font-size: 1.5em;
+    font-weight: bolder;
+}
+
+.altDetailParentName {
+    font-size: 1.5em;
+    font-weight: bolder;
+}
+
+.detailParentDesignation {
+    font-size: 1.2em;
+    font-weight: bolder;
+}
+
+.detailKidName {
+    padding-top: 1.2em;
+    font-size: 1.5em;
+    font-weight: bolder;
+}
+
+.detailOther {
+    font-size: 1em;
+}
+
+.thumbnail {
+    padding: 10px 4px 10px 10px;
+}
+
+.detailContent {
+    margin-top: 2em;
+}
+
+.otherDetail {
+    border-bottom-style: ridge;
+}
+
+.listItems {
+    border-top-style: ridge;
+}
+
+span.Icon {
+    top: 0.6em;
+    font-size: 2em;
+    float: right;
+}
+
+.modal-body {
+    padding-bottom: 0;
+}
+
+#kidsBodyModal {
+    padding: 0;
+}
+
+#kidsFooterModal {
+    margin-top: 0;
+}
+
+.kidsItems {
+    border-top-style: ridge;
+    text-align: left;
+}
+
+.rsvpBlock {
+    padding-bottom: 1.5em;
+}
+
+.Asary {
+    border-style: outset;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}
+
+.eventBdayFont {
+    font-size: x-large;
+}
+
+.panel-group {
+    font-size: large;
+}

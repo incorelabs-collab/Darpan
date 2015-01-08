@@ -29,17 +29,22 @@ var pageBnA = {
 
 $(document).ready(function() {
     app.setCurrentPage("BnA.html");
-    var buildDateQuery = "";
-    var noMaleBdayToday = false, noMaleBdayTmr = false, noMaleBdayDayAfter = false;
-    var noFemaleBdayToday = false, noFemaleBdayTmr = false, noFemaleBdayDayAfter = false;
-    var noAsaryToday = false, noAsaryTmr = false, noAsaryDayAfter = false;
+    var noMaleBdayToday = false;
+    var noMaleBdayTmr = false;
+    var noMaleBdayDayAfter = false;
+    var noFemaleBdayToday = false;
+    var noFemaleBdayTmr = false;
+    var noFemaleBdayDayAfter = false;
+    var noAsaryToday = false;
+    var noAsaryTmr = false;
+    var noAsaryDayAfter = false;
     var todayMale = new Date();
     var todayMaleString = "<div class='panel-body'>";
     var tmrMaleString = "<div class='panel-body'>";
     var dayAfterMaleString = "<div class='panel-body'>";
 
     app.db.transaction(function (tx) {
-        buildDateQuery = "SELECT id, Name FROM male WHERE DOB LIKE '" + pageBnA.getCompareDate(todayMale.getDate(), (todayMale.getMonth() + 1)) +"%'";
+        var buildDateQuery = "SELECT id, Name FROM male WHERE DOB LIKE '" + pageBnA.getCompareDate(todayMale.getDate(), (todayMale.getMonth() + 1)) +"%'";
         tx.executeSql(buildDateQuery, [],
             function (tx, r) {
                 for(var i = 0;i<r.rows.length;i++) {
