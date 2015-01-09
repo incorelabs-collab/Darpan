@@ -88,3 +88,31 @@ $(document).ready(function() {
         );
     });
 });
+$('form').on('submit', function(e){
+    e.preventDefault();
+    var fields = $(this).serializeArray();
+    var jsonObj = "{\"male_id\":\""+localStorage.getItem("male_user_id")+"\",\"event_id\":\""+localStorage.getItem("rsvp_event_id")+"\",";
+    $.each( fields, function(i, field) {
+        jsonObj += "\""+field.name+"\":\""+field.value+"\",";
+    });
+    jsonObj = jsonObj.slice(0,-1);
+    jsonObj += "}";
+    if(app.isConnectionAvailable()) {
+        $.post("http://www.incorelabs.com/clubApp/admin/rsvp.php", JSON.parse(jsonObj), function(data, textStatus, xhr) {
+            $('#rsvpModal').modal('hide');
+            if(data == "1") {
+                navigator.notification.alert("Your response has been submitted. Thank - you.", app.alertDismissed, "R.S.V.P.");
+                $("#"+localStorage.getItem("rsvp_button")).parent().remove();
+                localStorage.setItem("rsvp_done_string",(localStorage.getItem("rsvp_done_string")+localStorage.getItem("rsvp_event_id")+","));
+            } else if(data == "2") {
+                navigator.notification.alert("You have ALREADY sent us this data. Thank - you.", app.alertDismissed, "DUPLICATE Response !!!");
+                $("#"+localStorage.getItem("rsvp_button")).parent().remove();
+                localStorage.setItem("rsvp_done_string",(localStorage.getItem("rsvp_done_string")+localStorage.getItem("rsvp_event_id")+","));
+            } else if(data == "0") {
+                navigator.notification.alert("Oops! Error with the Server.", app.alertDismissed, "TRY Again!");
+            }
+        });
+    } else {
+        alert("No Internet Connection. Try Again Later!");
+    }
+});

@@ -261,6 +261,8 @@ var app = {
             $("#app").html(data);
         });
     },
+    alertDismissed: function() {
+    },
     onBackKeyDown: function() {
         var url = app.getBackPage();
         if(url != "") {
