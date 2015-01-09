@@ -10,4 +10,71 @@
 <br/>
 <div class="container homeContent" align="center">
 </div>
+<div class="modal fade" id="rsvpModal" tabindex="-1" role="dialog" aria-labelledby="rsvpLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="rsvpLabel" align="center">R.S.V.P.</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" id="rsvp_form">
+                    <div class="form-group">
+                        <label for="yesYouAttend">Are you attending?</label>
+                        <div class="radio">
+                            <label style="float: left;">
+                                <input type="radio" name="is_male" id="yesYouAttend" value="1" required>
+                                Yes
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label style="float: left;">
+                                <input type="radio" name="is_male" id="noYouAttend" value="0">
+                                No
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="yesSpouseAttend">Is your spouse attending?</label>
+                        <div class="radio">
+                            <label style="float: left;">
+                                <input type="radio" name="is_female" id="yesSpouseAttend" value="1" required>
+                                Yes
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label style="float: left;">
+                                <input type="radio" name="is_female" id="noSpouseAttend" value="0">
+                                No
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="yesKidsAttend">Are your children attending?</label>
+                        <div class="radio">
+                            <label style="float: left;">
+                                <input type="radio" name="are_kids" id="yesKidsAttend" value="1" required>
+                                Yes
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label style="float: left;">
+                                <input type="radio" name="are_kids" id="noKidsAttend" value="0">
+                                No
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="extraAttend">Extras?</label>
+                        <input type="number" class="form-control" id="extraAttend" placeholder="How many?" name="guest" min="0" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" id="search_btn">Confirm</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="js/events.js"></script>

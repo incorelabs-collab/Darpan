@@ -22,6 +22,9 @@ $(document).ready(function() {
     app.db.transaction(function (tx) {
         tx.executeSql("SELECT * FROM events", [],
             function (tx, r) {
+                if(localStorage.getItem("rsvp_done_string") == null){
+                    localStorage.setItem("rsvp_done_string", "");
+                }
                 var rsvp_done_array = localStorage.getItem("rsvp_done_string").split(",");
                 rsvp_done_array.pop();
                 for(var i in rsvp_done_array) {
@@ -72,8 +75,8 @@ $(document).ready(function() {
                     });
                     eventConcatString += "</div></div></div>";
                     localStorage.setItem("temp_rsvp_id", r.rows.item(i).id);
-                    if(getBoolean(localStorage.getItem("isUserMale")) === true && isRsvpDone(rsvp_done_array) != true) {
-                        eventConcatString += "<br/><div class='rsvpBlock'><button type='button' class='btn btn-primary' id='rsvpBtn"+i+"' data-toggle='modal' data-target='#rsvpModal' data-event-id='"+r.rows.item(i).id+"' onclick=\"setRsvpEntry('rsvpBtn"+i+"')\">R.S.V.P.</button></div>";
+                    if(app.getBoolean(localStorage.getItem("isUserMale")) === true && events.isRsvpDone(rsvp_done_array) != true) {
+                        eventConcatString += "<br/><div class='rsvpBlock'><button type='button' class='btn btn-primary' id='rsvpBtn"+i+"' data-toggle='modal' data-target='#rsvpModal' data-event-id='"+r.rows.item(i).id+"' onclick=\"events.setRsvpEntry('rsvpBtn"+i+"')\">R.S.V.P.</button></div>";
                     }
                     eventConcatString += "</div><br/>";
                 }
