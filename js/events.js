@@ -98,7 +98,7 @@ $('form').on('submit', function(e){
     jsonObj = jsonObj.slice(0,-1);
     jsonObj += "}";
     if(app.isConnectionAvailable()) {
-        $.post("http://www.incorelabs.com/clubApp/admin/rsvp.php", JSON.parse(jsonObj), function(data, textStatus, xhr) {
+        $.post("http://darpan.incorelabs.com/rsvp.php", JSON.parse(jsonObj), function(data, textStatus, xhr) {
             $('#rsvpModal').modal('hide');
             if(data == "1") {
                 navigator.notification.alert("Your response has been submitted. Thank - you.", app.alertDismissed, "R.S.V.P.");

@@ -106,25 +106,25 @@ var app = {
 
             // Production URL.
 
-            $.getJSON('http://incorelabs.com/clubApp/users.php', function(userData) {
+            $.getJSON('http://darpan.incorelabs.com/users.php', function(userData) {
                 app.createTable(userData,"users",0);
             });
-            $.getJSON('http://incorelabs.com/clubApp/male.php', function(maleData) {
+            $.getJSON('http://darpan.incorelabs.com/male.php', function(maleData) {
                 app.createTable(maleData,"male",1);
             });
-            $.getJSON('http://incorelabs.com/clubApp/female.php', function(femaleData) {
+            $.getJSON('http://darpan.incorelabs.com/female.php', function(femaleData) {
                 app.createTable(femaleData,"female",2);
             });
-            $.getJSON('http://incorelabs.com/clubApp/common.php', function(commonData) {
+            $.getJSON('http://darpan.incorelabs.com/common.php', function(commonData) {
                 app.createTable(commonData,"common",3);
             });
-            $.getJSON('http://incorelabs.com/clubApp/kids.php', function(kidsData) {
+            $.getJSON('http://darpan.incorelabs.com/kids.php', function(kidsData) {
                 app.createTable(kidsData,"kids",4);
             });
-            $.getJSON('http://incorelabs.com/clubApp/directors.php', function(directorsData) {
+            $.getJSON('http://darpan.incorelabs.com/directors.php', function(directorsData) {
                 app.createTable(directorsData,"directors",5);
             });
-            $.getJSON('http://incorelabs.com/clubApp/events.php', function(eventsData) {
+            $.getJSON('http://darpan.incorelabs.com/events.php', function(eventsData) {
                 app.createTable(eventsData,"events",6);
             });
 
