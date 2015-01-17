@@ -1,4 +1,4 @@
-var parentInfo = {
+var pageParentInfo = {
     checkImage: function(userId) {
         var img = new Image();
         img.onload = function() {
@@ -108,8 +108,7 @@ $(document).ready(function() {
             spouseUserId = userId - 1;
             commonMaleId = userId - 1;
         }
-        var buildUserColumnNameQuery = "SELECT sql FROM sqlite_master WHERE type='table' AND name = '"+userTableName+"'";
-        tx.executeSql(buildUserColumnNameQuery, [],
+        var buildUserColumnNameQuery = "SELECT sql FROM sqlite_master WHERE type='table' AND name = '"+userTableName+"'";        tx.executeSql(buildUserColumnNameQuery, [],
             function(tx, r) {
                 var columnParts = r.rows.item(0).sql.replace(/^[^\(]+\(([^\)]+)\)/g, '$1').split(', ');
                 var userColumnNames = [];
@@ -146,12 +145,12 @@ $(document).ready(function() {
                                                         if(r.rows.length > 0) {
                                                             kidsOnParentString += "<div class='container-fluid listItems bg-primary otherDetail'><div class='col-xs-12 col-sm-12 pull-left'><h3>Kids</h3></div></div>";
                                                             for(var i =0;i< r.rows.length; i++) {
-                                                                kidsOnParentString += "<div class='container detailContent'><div class='row'><a onclick='parentInfo.getKidsModal("+r.rows.item(i).id+")'><div class='col-xs-4'><img src='img/customer.png' class='thumbnail'></div><div class='col-xs-8'><div class='detailKidName'>"+r.rows.item(i).Name+"</div></div></a></div></div>";
+                                                                kidsOnParentString += "<div class='container detailContent'><div class='row'><a onclick='pageParentInfo.getKidsModal("+r.rows.item(i).id+")'><div class='col-xs-4'><img src='img/customer.png' class='thumbnail'></div><div class='col-xs-8'><div class='detailKidName'>"+r.rows.item(i).Name+"</div></div></a></div></div>";
                                                             }
                                                             $("#kidsOnParent").append(kidsOnParentString);
                                                         }
                                                         if(userData.has_partner == 1) {
-                                                            parentBodyString += "<div class='row listItems'><a onclick='parentInfo.getSpousePage("+spouseUserId+")'><div class='col-xs-10 col-sm-11 pull-left'><h4 class='spouseInfoTitleLabel'>Spouse</h4><h5 class='spouseInfoTitleDetail'>"+spouseName+"</h5></div><div class='col-xs-2 col-sm-1 pull-right'><span class='glyphicon glyphicon-chevron-right Icon'></span></div></a></div>";
+                                                            parentBodyString += "<div class='row listItems'><a onclick='pageParentInfo.getSpousePage("+spouseUserId+")'><div class='col-xs-10 col-sm-11 pull-left'><h4 class='spouseInfoTitleLabel'>Spouse</h4><h5 class='spouseInfoTitleDetail'>"+spouseName+"</h5></div><div class='col-xs-2 col-sm-1 pull-right'><span class='glyphicon glyphicon-chevron-right Icon'></span></div></a></div>";
                                                             parentBodyString += "<div class='row listItems'><div class='col-xs-10 col-sm-11 pull-left'><h4 class='infoTitleLabel'>Date of Marriage</h4><h5 class='infoTitleDetail'>"+commonData.DOM+"</h5></div><div class='col-xs-2 col-sm-1 pull-right'><span class='glyphicon glyphicon-heart Icon'></span></div></div>";
                                                         }
                                                         $.each(userData, function(index, val) {
@@ -235,7 +234,7 @@ $(document).ready(function() {
                                                         parentHeaderString += "</div></div>";
                                                         $("#parentHeader").append(parentHeaderString);
                                                         $("#parentBody").append(parentBodyString);
-                                                        parentInfo.checkImage(commonMaleId);
+                                                        pageParentInfo.checkImage(commonMaleId);
                                                         $("[data-toggle='popover']").popover();
                                                         parentHeaderString = "";
                                                         parentBodyString = "";

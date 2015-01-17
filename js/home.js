@@ -29,7 +29,7 @@ var pageHome = {
                 data: {uid : localStorage.getItem("login_user_id"), regId : token, deviceType : '1'},
                 success: function(data) {
                     localStorage.setItem("pushToken", token);
-                    console.log(data);
+                    // TODO : Add functionality to check if the registration was successful for Apple iOS.
                 },
                 error: function(error) {
                     alert(error);
@@ -63,7 +63,7 @@ var pageHome = {
                             data: {uid : localStorage.getItem("login_user_id"), regId : e.regid, deviceType : '0'},
                             success: function(data) {
                                 localStorage.setItem("pushToken", e.regid);
-                                console.log(data);
+                                // TODO : Add functionality to check if the registration was successful for Google Android.
                             },
                             error: function(error) {
                                 alert(error);
@@ -74,7 +74,7 @@ var pageHome = {
                 break;
 
             case 'message':
-                alert(JSON.stringify(e));
+                navigator.notification.alert(JSON.stringify(e), app.alertDismissed, 'Darpan', 'Dismiss');
                 //$("#app-status-ul").append('<li>MESSAGE -> MSG: ' + e.payload.message + '</li>');
                 //android only
                 //$("#app-status-ul").append('<li>MESSAGE -> MSGCNT: ' + e.payload.msgcnt + '</li>');
@@ -94,8 +94,6 @@ var pageHome = {
         }
     },
     successHandler: function(result) {
-        console.log(result);
-        //$("#app-status-ul").append('<li>success:' + result + '</li>');
     },
     errorHandler: function(error) {
         alert("An Error has occurred.");

@@ -91,6 +91,11 @@ a:hover {
     background-color: white;
 }
 
+.noBckBtnHeaderText {
+    margin: 0.5em auto 0em 1.5em;
+    display: inline-block;
+}
+
 .noPushyHeadSearchText {
     margin: 0.5em auto 0em -0.6em;
     display: inline-block;

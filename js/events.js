@@ -1,4 +1,4 @@
-var events = {
+var pageEvents = {
     setRsvpEntry: function(data) {
         localStorage.setItem("rsvp_event_id", document.getElementById(data).dataset.eventId);
         localStorage.setItem("rsvp_button", data);
@@ -75,8 +75,8 @@ $(document).ready(function() {
                     });
                     eventConcatString += "</div></div></div>";
                     localStorage.setItem("temp_rsvp_id", r.rows.item(i).id);
-                    if(app.getBoolean(localStorage.getItem("isUserMale")) === true && events.isRsvpDone(rsvp_done_array) != true) {
-                        eventConcatString += "<br/><div class='rsvpBlock'><button type='button' class='btn btn-primary' id='rsvpBtn"+i+"' data-toggle='modal' data-target='#rsvpModal' data-event-id='"+r.rows.item(i).id+"' onclick=\"events.setRsvpEntry('rsvpBtn"+i+"')\">R.S.V.P.</button></div>";
+                    if(app.getBoolean(localStorage.getItem("isUserMale")) === true && pageEvents.isRsvpDone(rsvp_done_array) != true) {
+                        eventConcatString += "<br/><div class='rsvpBlock'><button type='button' class='btn btn-primary' id='rsvpBtn"+i+"' data-toggle='modal' data-target='#rsvpModal' data-event-id='"+r.rows.item(i).id+"' onclick=\"pageEvents.setRsvpEntry('rsvpBtn"+i+"')\">R.S.V.P.</button></div>";
                     }
                     eventConcatString += "</div><br/>";
                 }

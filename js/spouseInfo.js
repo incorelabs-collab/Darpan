@@ -1,4 +1,4 @@
-var spouseInfo = {
+var pageSpouseInfo = {
     checkImage: function(userId) {
         var img = new Image();
         img.onload = function() {
@@ -135,7 +135,7 @@ $(document).ready(function() {
                                                         if(r.rows.length > 0) {
                                                             kidsOnParentString += "<div class='container-fluid listItems bg-primary otherDetail'><div class='col-xs-12 col-sm-12 pull-left'><h3>Kids</h3></div></div>";
                                                             for(var i =0;i< r.rows.length; i++) {
-                                                                kidsOnParentString += "<div class='container detailContent'><div class='row'><a onclick='spouseInfo.getKidsModal("+r.rows.item(i).id+")'><div class='col-xs-4'><img src='img/customer.png' class='thumbnail'></div><div class='col-xs-8'><div class='detailKidName'>"+r.rows.item(i).Name+"</div></div></a></div></div>";
+                                                                kidsOnParentString += "<div class='container detailContent'><div class='row'><a onclick='pageSpouseInfo.getKidsModal("+r.rows.item(i).id+")'><div class='col-xs-4'><img src='img/customer.png' class='thumbnail'></div><div class='col-xs-8'><div class='detailKidName'>"+r.rows.item(i).Name+"</div></div></a></div></div>";
                                                             }
                                                             $("#kidsOnParent").append(kidsOnParentString);
                                                         }
@@ -224,7 +224,7 @@ $(document).ready(function() {
                                                         parentHeaderString += "</div></div>";
                                                         $("#parentHeader").append(parentHeaderString);
                                                         $("#parentBody").append(parentBodyString);
-                                                        spouseInfo.checkImage(commonMaleId);
+                                                        pageSpouseInfo.checkImage(commonMaleId);
                                                         $("[data-toggle='popover']").popover();
                                                         parentHeaderString = "";
                                                         parentBodyString = "";
