@@ -43,7 +43,7 @@ var app = {
         }
     },
     doOnlineTasks: function() {
-        var url = 'http://darpan.incorelabs.com/db_version.php';
+        var url = 'http://incorelabs.com/clubApp/temp_dbVersion.php';
         if(localStorage.getItem('dbLocalVersion') == -1) {
             $.getJSON(url).done(app.checkWithLocalDB);
         } else {
@@ -81,6 +81,30 @@ var app = {
             localStorage.setItem('dbCurrentOnline',json.version);
 
             app.requestStatus = [false, false, false, false, false, false, false];
+
+            /*$.getJSON('users.php', function(userData) {
+                app.createTable(userData,"users",0);
+            });
+            $.getJSON('male.php', function(maleData) {
+                app.createTable(maleData,"male",1);
+            });
+            $.getJSON('female.php', function(femaleData) {
+                app.createTable(femaleData,"female",2);
+            });
+             $.getJSON('common.php', function(commonData) {
+             app.createTable(commonData,"common",3);
+             });
+            $.getJSON('kids.php', function(kidsData) {
+                app.createTable(kidsData,"kids",4);
+            });
+            $.getJSON('directors.php', function(directorsData) {
+                app.createTable(directorsData,"directors",5);
+            });
+            $.getJSON('events.php', function(eventsData) {
+                app.createTable(eventsData,"events",6);
+            });*/
+
+            // Production URL.
 
             $.getJSON('http://darpan.incorelabs.com/users.php', function(userData) {
                 app.createTable(userData,"users",0);
