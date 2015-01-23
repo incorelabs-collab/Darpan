@@ -264,6 +264,8 @@ var app = {
     alertDismissed: function() {
     },
     onBackKeyDown: function() {
+        $(".popover").remove();
+        $('body').removeClass();
         var url = app.getBackPage();
         if(url != "") {
             app.displayPage(url);
