@@ -12,10 +12,8 @@ var app = {
     })(),
     initialize: function() {
         document.addEventListener('deviceready', app.onDeviceReady, false);
-        //app.onDeviceReady();
     },
     onDeviceReady: function() {
-        document.addEventListener('resume', app.onResume, false);
         document.addEventListener('backbutton', app.onBackKeyDown, false);
         localStorage.removeItem('backLog');
 
@@ -31,10 +29,6 @@ var app = {
 
         app.checkConnection();
     },
-    onResume: function () {
-        localStorage.setItem("hasAppResumed",true);
-        app.checkConnection();
-    },
     checkConnection: function () {
         if(app.isConnectionAvailable()) {
             app.doOnlineTasks();
@@ -43,7 +37,7 @@ var app = {
         }
     },
     doOnlineTasks: function() {
-        var url = 'http://incorelabs.com/clubApp/temp_dbVersion.php';
+        var url = 'http://darpan.incorelabs.com/db_version.php';
         if(localStorage.getItem('dbLocalVersion') == -1) {
             $.getJSON(url).done(app.checkWithLocalDB);
         } else {
@@ -55,22 +49,19 @@ var app = {
             request.done(app.checkWithLocalDB);
             request.fail(function(jqXHR, textStatus) {
                 // Internet BUT Cannot Connect to server, hence Timeout.
-                if(app.getBoolean(localStorage.getItem("hasAppResumed")) == false) {
-                    if(app.getBoolean(localStorage.getItem("isUserLoggedIn")) != true) {
-                        app.displayPage("login.html");
-                    } else {
-                        app.displayPage("home.html");
-                    }
-                    $('#app').toggleClass('hidden');
+                if(app.getBoolean(localStorage.getItem("isUserLoggedIn")) != true) {
+                    app.displayPage("login.html");
+                } else {
+                    app.displayPage("home.html");
                 }
-                localStorage.removeItem("hasAppResumed");
+                $('#app').toggleClass('hidden');
                 //console.log( "Request failed: " + textStatus );
                 //console.log("Internet BUT Cannot Connect to server, hence Timeout.");
             });
         }
     },
     checkWithLocalDB: function(json) {
-        if (localStorage.getItem("dbLocalVersion") != json.version) {
+        if (localStorage.getItem("dbLocalVersion") != json[0][0]) {
             // TODO :: Change the parameters to the $.getJSON methods. That is, the resultant callbacks.
 
             // TODO :: If the request to the server takes more than 5 seconds. Tell the user the network is slow.
@@ -78,33 +69,9 @@ var app = {
             $('#app').empty();                          // Removes everything from the app div.
             $('#loading').toggleClass('hidden');        // Shows the loading screen.
 
-            localStorage.setItem('dbCurrentOnline',json.version);
+            localStorage.setItem('dbCurrentOnline',json[0][0]);
 
             app.requestStatus = [false, false, false, false, false, false, false];
-
-            /*$.getJSON('users.php', function(userData) {
-                app.createTable(userData,"users",0);
-            });
-            $.getJSON('male.php', function(maleData) {
-                app.createTable(maleData,"male",1);
-            });
-            $.getJSON('female.php', function(femaleData) {
-                app.createTable(femaleData,"female",2);
-            });
-             $.getJSON('common.php', function(commonData) {
-             app.createTable(commonData,"common",3);
-             });
-            $.getJSON('kids.php', function(kidsData) {
-                app.createTable(kidsData,"kids",4);
-            });
-            $.getJSON('directors.php', function(directorsData) {
-                app.createTable(directorsData,"directors",5);
-            });
-            $.getJSON('events.php', function(eventsData) {
-                app.createTable(eventsData,"events",6);
-            });*/
-
-            // Production URL.
 
             $.getJSON('http://darpan.incorelabs.com/users.php', function(userData) {
                 app.createTable(userData,"users",0);
@@ -130,15 +97,12 @@ var app = {
 
         } else {
             // Internet BUT Data is Up to Date.
-            if(app.getBoolean(localStorage.getItem("hasAppResumed")) == false) {
-                if(app.getBoolean(localStorage.getItem("isUserLoggedIn")) != true) {
-                 app.displayPage("login.html");
-                 } else {
-                 app.displayPage("home.html");
-                 }
-                $('#app').toggleClass('hidden');
-            }
-            localStorage.removeItem("hasAppResumed");
+            if(app.getBoolean(localStorage.getItem("isUserLoggedIn")) != true) {
+             app.displayPage("login.html");
+             } else {
+             app.displayPage("home.html");
+             }
+            $('#app').toggleClass('hidden');
             //console.log("Internet BUT Data is Up to Date.");
         }
     },
@@ -146,23 +110,17 @@ var app = {
         // TODO :: In offline mode. if there is no data. Ask the user. to connect to internet. Give Refresh button.
         if(localStorage.getItem('dbLocalVersion') == -1) {
             // NO Internet NO Data.
-            if(app.getBoolean(localStorage.getItem("hasAppResumed")) == false) {
-                $("#app").append("Please Connect to the internet. You have NO data.");
-                $('#app').toggleClass('hidden');
-                //console.log("NO Internet NO Data.");
-            }
-            localStorage.removeItem("hasAppResumed");
+            $("#app").append("Please Connect to the internet. You have NO data.");
+            $('#app').toggleClass('hidden');
+            //console.log("NO Internet NO Data.");
         } else {
             // No Internet BUT Data is there.
-            if(app.getBoolean(localStorage.getItem("hasAppResumed")) == false) {
-                if(app.getBoolean(localStorage.getItem("isUserLoggedIn")) != true) {
-                 app.displayPage("login.html");
-                 } else {
-                 app.displayPage("home.html");
-                 }
-                $('#app').toggleClass('hidden');
-            }
-            localStorage.removeItem("hasAppResumed");
+            if(app.getBoolean(localStorage.getItem("isUserLoggedIn")) != true) {
+             app.displayPage("login.html");
+             } else {
+             app.displayPage("home.html");
+             }
+            $('#app').toggleClass('hidden');
             //console.log("NO internet BUT Data Present.");
         }
     },
@@ -189,9 +147,7 @@ var app = {
                 } else {
                     app.displayPage("home.html");
                 }
-                if(app.getBoolean(localStorage.getItem("hasAppResumed")) == false) {
-                    $('#app').toggleClass('hidden');            // Show the app div now after data has loaded.
-                }
+                $('#app').toggleClass('hidden');            // Show the app div now after data has loaded.
             }
         },app.dbTxError);
     },
