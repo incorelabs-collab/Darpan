@@ -38,6 +38,7 @@ var app = {
     },
     doOnlineTasks: function() {
         var url = 'http://darpan.incorelabs.com/db_version.php';
+        //var url ="http://incorelabs.com/clubApp/temp_dbVersion.php";
         if(localStorage.getItem('dbLocalVersion') == -1) {
             $.getJSON(url).done(app.checkWithLocalDB);
         } else {
@@ -62,6 +63,7 @@ var app = {
     },
     checkWithLocalDB: function(json) {
         if (localStorage.getItem("dbLocalVersion") != json[0][0]) {
+        //if (localStorage.getItem("dbLocalVersion") != json.version) {
             // TODO :: Change the parameters to the $.getJSON methods. That is, the resultant callbacks.
 
             // TODO :: If the request to the server takes more than 5 seconds. Tell the user the network is slow.
@@ -70,6 +72,7 @@ var app = {
             $('#loading').toggleClass('hidden');        // Shows the loading screen.
 
             localStorage.setItem('dbCurrentOnline',json[0][0]);
+            //localStorage.setItem('dbCurrentOnline',json.version);
 
             app.requestStatus = [false, false, false, false, false, false, false];
 
