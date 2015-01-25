@@ -3,14 +3,14 @@ var pageSpouseInfo = {
         var img = new Image();
         img.onload = function() {
             // code to set the src on success
-            $("#DPimage").attr("src", imageURL);
+            $("#DPimage").attr("src", imgURL);
         };
         img.onerror = function() {
             // doesn't exist or error loading
             $("#DPimage").attr("src", "img/customer.png");
         };
-        var imageURL = "img/DP/"+userId+".jpg";
-        img.src = imageURL;  // fires off loading of image
+        var imgURL = app.imgDir.toURL()+userId+".jpg";
+        img.src = imgURL;  // fires off loading of image
     },
     getKidsModal: function (id) {
         $("#kidsHeader").empty();
