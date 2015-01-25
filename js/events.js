@@ -91,7 +91,7 @@ $(document).ready(function() {
 $('form').on('submit', function(e){
     e.preventDefault();
     var fields = $(this).serializeArray();
-    var jsonObj = "{\"male_id\":\""+localStorage.getItem("male_user_id")+"\",\"event_id\":\""+localStorage.getItem("rsvp_event_id")+"\",";
+    var jsonObj = "{\"male_id\":\""+localStorage.getItem("login_user_id")+"\",\"event_id\":\""+localStorage.getItem("rsvp_event_id")+"\",";
     $.each( fields, function(i, field) {
         jsonObj += "\""+field.name+"\":\""+field.value+"\",";
     });
