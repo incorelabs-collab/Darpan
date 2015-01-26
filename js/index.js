@@ -58,8 +58,7 @@ var app = {
         //var url ="http://incorelabs.com/clubApp/temp_dbVersion.php";
         if(localStorage.getItem('dbLocalVersion') == -1) {
             $.getJSON(urlData).done(app.checkWithLocalDB);
-        }
-        else {
+        } else {
             var request = $.ajax({
                 dataType: "json",
                 url: urlData,
@@ -78,6 +77,58 @@ var app = {
                 //console.log("Internet BUT Cannot Connect to server, hence Timeout.");
             });
         }
+    },
+    checkWithLocalDB: function(json) {
+        if (localStorage.getItem("dbLocalVersion") != json[0][0]) {
+        //if (localStorage.getItem("dbLocalVersion") != json.version) {
+            // TODO :: Change the parameters to the $.getJSON methods. That is, the resultant callbacks.
+
+            // TODO :: If the request to the server takes more than 5 seconds. Tell the user the network is slow.
+
+            $('#app').empty();                          // Removes everything from the app div.
+            $('#loading').toggleClass('hidden');        // Shows the loading screen.
+
+            localStorage.setItem('dbCurrentOnline',json[0][0]);
+            //localStorage.setItem('dbCurrentOnline',json.version);
+
+            app.requestStatus = [false, false, false, false, false, false, false];
+
+            $.getJSON('http://darpan.incorelabs.com/users.php', function(userData) {
+                app.createTable(userData,"users",0);
+            });
+            $.getJSON('http://darpan.incorelabs.com/male.php', function(maleData) {
+                app.createTable(maleData,"male",1);
+            });
+            $.getJSON('http://darpan.incorelabs.com/female.php', function(femaleData) {
+                app.createTable(femaleData,"female",2);
+            });
+            $.getJSON('http://darpan.incorelabs.com/common.php', function(commonData) {
+                app.createTable(commonData,"common",3);
+            });
+            $.getJSON('http://darpan.incorelabs.com/kids.php', function(kidsData) {
+                app.createTable(kidsData,"kids",4);
+            });
+            $.getJSON('http://darpan.incorelabs.com/directors.php', function(directorsData) {
+                app.createTable(directorsData,"directors",5);
+            });
+            $.getJSON('http://darpan.incorelabs.com/events.php', function(eventsData) {
+                app.createTable(eventsData,"events",6);
+            });
+
+        } else {
+            // Internet BUT Data is Up to Date.
+            app.getImageAssets();
+            if(app.getBoolean(localStorage.getItem("isUserLoggedIn")) != true) {
+             app.displayPage("login.html");
+             } else {
+             app.displayPage("home.html");
+             }
+            $('#app').toggleClass('hidden');
+            //console.log("Internet BUT Data is Up to Date.");
+        }
+    },
+    getImageAssets: function () {
+        console.log("Done loading data");
         var urlImages = 'http://darpan.incorelabs.com/images/file-list.php?key=kamlesh';
         var dirReference = app.getDirectoryReference();
         dirReference.done(function(imgDir) {
@@ -128,54 +179,6 @@ var app = {
             }
         });
     },
-    checkWithLocalDB: function(json) {
-        if (localStorage.getItem("dbLocalVersion") != json[0][0]) {
-        //if (localStorage.getItem("dbLocalVersion") != json.version) {
-            // TODO :: Change the parameters to the $.getJSON methods. That is, the resultant callbacks.
-
-            // TODO :: If the request to the server takes more than 5 seconds. Tell the user the network is slow.
-
-            $('#app').empty();                          // Removes everything from the app div.
-            $('#loading').toggleClass('hidden');        // Shows the loading screen.
-
-            localStorage.setItem('dbCurrentOnline',json[0][0]);
-            //localStorage.setItem('dbCurrentOnline',json.version);
-
-            app.requestStatus = [false, false, false, false, false, false, false];
-
-            $.getJSON('http://darpan.incorelabs.com/users.php', function(userData) {
-                app.createTable(userData,"users",0);
-            });
-            $.getJSON('http://darpan.incorelabs.com/male.php', function(maleData) {
-                app.createTable(maleData,"male",1);
-            });
-            $.getJSON('http://darpan.incorelabs.com/female.php', function(femaleData) {
-                app.createTable(femaleData,"female",2);
-            });
-            $.getJSON('http://darpan.incorelabs.com/common.php', function(commonData) {
-                app.createTable(commonData,"common",3);
-            });
-            $.getJSON('http://darpan.incorelabs.com/kids.php', function(kidsData) {
-                app.createTable(kidsData,"kids",4);
-            });
-            $.getJSON('http://darpan.incorelabs.com/directors.php', function(directorsData) {
-                app.createTable(directorsData,"directors",5);
-            });
-            $.getJSON('http://darpan.incorelabs.com/events.php', function(eventsData) {
-                app.createTable(eventsData,"events",6);
-            });
-
-        } else {
-            // Internet BUT Data is Up to Date.
-            if(app.getBoolean(localStorage.getItem("isUserLoggedIn")) != true) {
-             app.displayPage("login.html");
-             } else {
-             app.displayPage("home.html");
-             }
-            $('#app').toggleClass('hidden');
-            //console.log("Internet BUT Data is Up to Date.");
-        }
-    },
     doOfflineTasks: function() {
         // TODO :: In offline mode. if there is no data. Ask the user. to connect to internet. Give Refresh button.
         if(localStorage.getItem('dbLocalVersion') == -1) {
@@ -214,6 +217,7 @@ var app = {
             }
             app.requestStatus[index] = true;
             if(app.requestStatus.every(app.validateRequest)) {
+                app.getImageAssets();
                 app.dbChangeVersion(0, localStorage.getItem('dbLocalVersion'), localStorage.getItem('dbCurrentOnline'));
                 $('#loading').toggleClass('hidden');        // hides the loading screen again
                 // Since onResume the entire app div is emptied thus there is not need for hiding it.

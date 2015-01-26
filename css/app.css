@@ -27,9 +27,12 @@ a:hover {
     z-index: 1;
 }
 
-.homeContent{
+.homeData {
     margin-top: 5em;
-    /*margin-bottom: 5em;*/
+}
+
+.homeContent{
+    margin-top: 4em;
 }
 
 /* App StartUp */
@@ -84,20 +87,34 @@ a:hover {
     padding: 0;
 }
 
-#myMenuBtn {
-    margin: 0.7em 0 1em 0.6667em;
+#bckWithSearch {
+    margin: 8px 0 0em 0.6667em;
     display: inline-block;
     float: left;
     background-color: white;
+    padding-bottom: 5px;
+}
+
+#bckWithoutSearch {
+    margin: 8px 0 8px 0.6667em;
+    display: inline-block;
+    float: left;
+    background-color: white;
+    padding-bottom: 5px;
 }
 
 .noBckBtnHeaderText {
-    margin: 0.5em auto 0em 1.5em;
+    margin: 0.4em auto 0em 1.5em;
     display: inline-block;
 }
 
-.noPushyHeadSearchText {
-    margin: 0.5em auto 0em -0.6em;
+.headerText {
+    margin: 0.4em auto 0em 0em;
+    display: inline-block;
+}
+
+.noSearchHeaderText {
+    margin: 0.4em auto 0em -1.4em;
     display: inline-block;
 }
 

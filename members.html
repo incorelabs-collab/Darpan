@@ -1,13 +1,60 @@
 <header>
     <div class="page-header navbar-default navbar-fixed-top" align="center">
-        <button class="navbar-toggle btn-lg backBtn" type="button" id="myMenuBtn" onclick="app.onBackKeyDown();">
+        <button class="navbar-toggle btn-lg backBtn" type="button" id="bckWithSearch" onclick="app.onBackKeyDown();">
             <span class="glyphicon glyphicon-circle-arrow-left"></span>
         </button>
-        <h2 class="noPushyHeadSearchText">Members</h2>
+        <h2 class="headerText">Members</h2>
+        <button class="navbar-toggle" type="button" onclick="searchMiniApp.openSearchForm();">
+          <span class="glyphicon glyphicon-search"></span>
+        </button>
     </div>
 </header>
 <br/>
 <br/>
 <div class="container homeContent" align="center">
 </div>
+<!-- Search Modal -->
+<div class="modal" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="searchLabel" align="center">Search</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" id="searchForm" name="searchNameForm">
+                    <div class="form-group">
+                        <label for="memberName">Name</label>
+                        <input type="text" class="form-control" id="memberName" placeholder="Name" name="memberName">
+                    </div>
+                    <div class="form-group">
+                        <label for="bloodGroup">Blood Group</label>
+                        <select class="form-control" id="bloodGroup" name="bloodGroup">
+                            <option value="">Select Blood Group</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="memberOccupation">Occupation</label>
+                        <input type="text" class="form-control" id="memberOccupation" placeholder="Occupation" name="memberOccupation">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="search_btn"
+                        onclick="searchMiniApp.validateSearchForm();">Search
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="js/members.js"></script>
+<script src="js/search.js"></script>
