@@ -53,21 +53,6 @@ var app = {
             app.doOfflineTasks();
         }
     },
-    getDirectoryReference: function () {
-        var def = $.Deferred();
-
-        var dirEntry = window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(dir) {
-            //now we have the data dir, get our asset dir
-            console.log("got main dir",dir);
-            dir.getDirectory("assets/", {create:true}, function(aDir) {
-                console.log("ok, got assets", aDir);
-                //we need access to this directory later, so copy it to globals
-                def.resolve(aDir);
-            }, app.fileSystemError);
-
-        }, app.fileSystemError);
-        return def.promise();
-    },
     doOnlineTasks: function() {
         var urlData = 'http://darpan.incorelabs.com/db_version.php';
         //var url ="http://incorelabs.com/clubApp/temp_dbVersion.php";
@@ -208,6 +193,11 @@ var app = {
             $('#app').toggleClass('hidden');
             //console.log("NO internet BUT Data Present.");
         }
+        var dirReference = app.getDirectoryReference();
+        dirReference.done(function(imgDir) {
+            console.log(imgDir);
+            app.imgDir = imgDir;
+        });
     },
     isConnectionAvailable: function() {
         return navigator.connection.type === Connection.NONE ? false : true;
@@ -235,6 +225,21 @@ var app = {
                 $('#app').toggleClass('hidden');            // Show the app div now after data has loaded.
             }
         },app.dbTxError);
+    },
+    getDirectoryReference: function () {
+        var def = $.Deferred();
+
+        var dirEntry = window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(rootDir) {
+            //now we have the data dir, get our asset dir
+            console.log("got main dir",rootDir);
+            rootDir.getDirectory("assets/", {create:true}, function(subDir) {
+                console.log("ok, got assets", subDir);
+                //we need access to this directory later, so copy it to globals
+                def.resolve(subDir);
+            }, app.fileSystemError);
+
+        }, app.fileSystemError);
+        return def.promise();
     },
     fetchNewAssets: function(url, filename, timestamp) {
         console.log("insert fetch url",url);
