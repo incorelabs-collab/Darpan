@@ -55,7 +55,6 @@ var app = {
     },
     doOnlineTasks: function() {
         var urlData = 'http://darpan.incorelabs.com/db_version.php';
-        //var url ="http://incorelabs.com/clubApp/temp_dbVersion.php";
         if(localStorage.getItem('dbLocalVersion') == -1) {
             $.getJSON(urlData).done(app.checkWithLocalDB);
         } else {
@@ -237,6 +236,7 @@ var app = {
             //now we have the data dir, get our asset dir
             console.log("got main dir",rootDir);
             rootDir.getDirectory("assets/", {create:true}, function(subDir) {
+                localStorage.setItem("imgDir",subDir.toURL());
                 console.log("ok, got assets", subDir);
                 //we need access to this directory later, so copy it to globals
                 def.resolve(subDir);

@@ -28,18 +28,19 @@ var pageMembers = {
 $(document).ready(function() {
     app.setCurrentPage("members.html");
     var memberConcatString = "";
+    var imgDir = localStorage.getItem("imgDir");
     app.db.transaction(function (tx) {
         tx.executeSql("SELECT m.has_partner, m.id m_id, m.Name m_name, f.id f_id, f.Name f_name FROM male AS m JOIN female AS f ON m.spouse_id = f.id ORDER BY m.Name", [],
             function (tx, r) {
                 for(var i =0;i< r.rows.length; i++) {
                     if(r.rows.item(i).has_partner == 1) {
-                        memberConcatString += "<div class='row memberImgAndData'><div class='col-xs-6 memberImgData'><img src='"+app.imgDir.toURL()+r.rows.item(i).m_id+".jpg' class='img-responsive' onerror='pageMembers.imgError(this)'></div><div class='col-xs-6 coupleData'>";
+                        memberConcatString += "<div class='row memberImgAndData'><div class='col-xs-6 memberImgData'><img src='"+imgDir+r.rows.item(i).m_id+".jpg' class='img-responsive' onerror='pageMembers.imgError(this)'></div><div class='col-xs-6 coupleData'>";
 
                         memberConcatString += "<a onclick='pageMembers.getParentPage("+r.rows.item(i).m_id+")' class='memberLink'><span>"+r.rows.item(i).m_name+"</span></a><hr class='coupleDivider'>";
 
                         memberConcatString += "<a onclick='pageMembers.getParentPage("+r.rows.item(i).f_id+")' class='memberLink'><span>"+r.rows.item(i).f_name+"</span></a></div></div><br/>";
                     } else {
-                        memberConcatString += "<div class='row singleMemberImgAndData'><div class='col-xs-6 singleMemberImgData'><img src='"+app.imgDir.toURL()+r.rows.item(i).m_id+".jpg' class='img-responsive' onerror='pageMembers.imgError(this)'></div><div class='col-xs-6 singleData'>";
+                        memberConcatString += "<div class='row singleMemberImgAndData'><div class='col-xs-6 singleMemberImgData'><img src='"+imgDir+r.rows.item(i).m_id+".jpg' class='img-responsive' onerror='pageMembers.imgError(this)'></div><div class='col-xs-6 singleData'>";
 
                         memberConcatString += "<a onclick='pageMembers.getParentPage("+r.rows.item(i).m_id+")' class='memberLink'><span>"+r.rows.item(i).m_name+"</span></a></div></div><br/>";
                     }

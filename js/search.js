@@ -111,14 +111,15 @@ var searchMiniApp = {
     },
     buildSearchResults: function (k, resultsID, resultsName) {
         var searchConcatString = "";
+        var imgDir = localStorage.getItem("imgDir");
         if(k>0) {
             for(var i=0;i<k;i++) {
                 // If you subtract 10000 from the id and yields a positive result then it is a kid else parent.
                 if((resultsID[i] - 10000) > 0) {
-                    searchConcatString += "<div class='row singleMemberImgAndData'><div class='col-xs-6 singleMemberImgData'><img src='"+app.imgDir.toURL()+resultsID[i]+".jpg' class='img-responsive' onerror='pageSearchResults.imgError(this)'></div><div class='col-xs-6 singleData'>";
+                    searchConcatString += "<div class='row singleMemberImgAndData'><div class='col-xs-6 singleMemberImgData'><img src='"+imgDir+resultsID[i]+".jpg' class='img-responsive' onerror='pageSearchResults.imgError(this)'></div><div class='col-xs-6 singleData'>";
                     searchConcatString += "<a onclick='pageSearchResults.getKidsModal("+resultsID[i]+")' class='memberLink'><span>"+resultsName[i]+"</span></a></div></div><br/>";
                 } else {
-                    searchConcatString += "<div class='row singleMemberImgAndData'><div class='col-xs-6 singleMemberImgData'><img src='"+app.imgDir.toURL()+resultsID[i]+".jpg' class='img-responsive' onerror='pageSearchResults.imgError(this)'></div><div class='col-xs-6 singleData'>";
+                    searchConcatString += "<div class='row singleMemberImgAndData'><div class='col-xs-6 singleMemberImgData'><img src='"+imgDir+resultsID[i]+".jpg' class='img-responsive' onerror='pageSearchResults.imgError(this)'></div><div class='col-xs-6 singleData'>";
                     searchConcatString += "<a onclick='pageSearchResults.getParentPage("+resultsID[i]+")' class='memberLink'><span>"+resultsName[i]+"</span></a></div></div><br/>";
                 }
             }

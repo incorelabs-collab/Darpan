@@ -9,7 +9,7 @@ var pageParentInfo = {
             // doesn't exist or error loading
             $("#DPimage").attr("src", "img/customer.png");
         };
-        var imgURL = app.imgDir.toURL()+userId+".jpg";
+        var imgURL = localStorage.getItem("imgDir")+userId+".jpg";
         img.src = imgURL;  // fires off loading of image
     },
     getSpousePage: function(id) {
