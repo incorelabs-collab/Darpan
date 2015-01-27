@@ -298,6 +298,26 @@ a:hover {
     font-weight: bolder;
 }
 
+.spouseInfoTitleLabel {
+    font-size: 1.3em;
+    font-weight: bold;
+    color: forestgreen;
+}
+
+.spouseInfoTitleDetail {
+    font-size: 1.3em;
+    color: forestgreen;
+}
+
+.infoTitleLabel {
+    font-size: 1.3em;
+    font-weight: bold;
+}
+
+.infoTitleDetail {
+    font-size: 1.3em;
+}
+
 .altDetailParentName {
     font-size: 1.5em;
     font-weight: bolder;
