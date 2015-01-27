@@ -19,6 +19,7 @@ var app = {
         document.addEventListener('deviceready', app.onDeviceReady, false);
     },
     onDeviceReady: function() {
+        navigator.splashscreen.show();
         document.addEventListener('backbutton', app.onBackKeyDown, false);
         localStorage.removeItem('backLog');
 
@@ -29,6 +30,7 @@ var app = {
         }, 3000);
 
         setTimeout(function () {
+            navigator.splashscreen.hide();
             $('#startup_splash').remove();
         }, 5000);
 
@@ -371,21 +373,21 @@ var app = {
         if(url != "") {
             app.displayPage(url);
         } else {
-            var wantToExit = confirm("Do you want to exit ?");
+            /*var wantToExit = confirm("Do you want to exit ?");
             if(wantToExit)
                 navigator.app.exitApp();
             else
-                return;
-            //navigator.notification.confirm('Do you want to exit ?', app.onConfirm, 'Confirmation', ['Yes','No']);
+                return;*/
+            navigator.notification.confirm('Do you want to exit ?', app.onConfirm, 'Confirmation', ['Yes','No']);
         }
-    }
-    /*onConfirm: function(buttonIndex) {
+    },
+    onConfirm: function(buttonIndex) {
       if(buttonIndex == 1) {
             navigator.app.exitApp();
         } else {
             return;
         }
-    }*/
+    }
 };
 
 app.initialize();
