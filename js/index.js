@@ -32,7 +32,7 @@ var app = {
         setTimeout(function () {
             navigator.splashscreen.hide();
             $('#startup_splash').remove();
-        }, 5000);
+        }, 6000);
 
         if(app.imgDb.version == -1) {
             app.imgDb.transaction(function (tx) {
