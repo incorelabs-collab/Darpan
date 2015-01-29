@@ -127,7 +127,6 @@ var searchMiniApp = {
             searchConcatString = "<div><h2>NO RESULTS FOUND !! </h2></div>"
         }
         app.setBackPage(app.getCurrentPage());
-        // append
         $('#searchModal').modal('hide');
         localStorage.setItem("searchData", searchConcatString);
         setTimeout(function () {

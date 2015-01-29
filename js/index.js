@@ -22,18 +22,14 @@ var app = {
         navigator.splashscreen.show();
         document.addEventListener('backbutton', app.onBackKeyDown, false);
         localStorage.removeItem('backLog');
-
         $('#app').toggleClass('hidden');
-
         setTimeout(function() {
             navigator.splashscreen.hide();
         }, 3000);
-
         setTimeout(function () {
             navigator.splashscreen.hide();
             $('#startup_splash').remove();
         }, 6000);
-
         if(app.imgDb.version == -1) {
             app.imgDb.transaction(function (tx) {
                 tx.executeSql("CREATE TABLE IF NOT EXISTS profile_pic (filename TEXT NOT NULL, timestamp TEXT NOT NULL)",[],
@@ -44,7 +40,6 @@ var app = {
                 );
             });
         }
-
         localStorage.setItem("hitImageServer",false);
         app.checkConnection();
     },
@@ -74,14 +69,11 @@ var app = {
                     app.displayPage("home.html");
                 }
                 $('#app').toggleClass('hidden');
-                //console.log( "Request failed: " + textStatus );
-                //console.log("Internet BUT Cannot Connect to server, hence Timeout.");
             });
         }
     },
     checkWithLocalDB: function(json) {
         if (localStorage.getItem("dbLocalVersion") != json[0][0]) {
-        //if (localStorage.getItem("dbLocalVersion") != json.version) {
             // TODO :: Change the parameters to the $.getJSON methods. That is, the resultant callbacks.
 
             // TODO :: If the request to the server takes more than 5 seconds. Tell the user the network is slow.
@@ -90,7 +82,6 @@ var app = {
             $('#loading').toggleClass('hidden');        // Shows the loading screen.
 
             localStorage.setItem('dbCurrentOnline',json[0][0]);
-            //localStorage.setItem('dbCurrentOnline',json.version);
 
             app.requestStatus = [false, false, false, false, false, false, false];
 
@@ -125,22 +116,17 @@ var app = {
              app.displayPage("home.html");
              }
             $('#app').toggleClass('hidden');
-            //console.log("Internet BUT Data is Up to Date.");
         }
     },
     getImageAssets: function () {
-        console.log("Done loading data");
         var urlImages = 'http://darpan.incorelabs.com/images/file-list.php?key=kamlesh';
         var dirReference = app.getDirectoryReference();
         dirReference.done(function(imgDir) {
-            console.log(imgDir);
             app.imgDir = imgDir;
             if(app.getBoolean(localStorage.getItem("hitImageServer")) != true){
                 // Once per app server hit.
                 $.getJSON(urlImages).done(function(res) {
-                    console.log(res);
                     if(app.getBoolean(localStorage.getItem("appFirstRun")) != true) {
-                        console.log("No Assets");
                         for(var i=0, len=res.length; i<len; i++) {
                             app.fetchNewAssets(res[i].url, res[i].url.split("/").pop(), res[i].timestamp.toString());
                         }
@@ -153,19 +139,13 @@ var app = {
                                     tx.executeSql("SELECT timestamp FROM profile_pic WHERE filename = '"+res[i].url.split("/").pop()+"'", [],
                                         function (tx, r) {
                                             if(r.rows.length === 0) {
-                                                // The file does not exist
-                                                // get from server and use fetchNewAssets
-                                                console.log("New file");
+                                                // The file does not exist, it is a new file.
                                                 app.fetchNewAssets(res[i].url, res[i].url.split("/").pop(), res[i].timestamp.toString());
                                             } else {
                                                 // The file exists. Now check if timestamp is mismatch.
                                                 // If mismatch Download new file and update the db.
-                                                console.log(i, res[i].url, r.rows.item(0).timestamp);
                                                 if(r.rows.item(0).timestamp != res[i].timestamp) {
                                                     app.fetchUpdatedAssets(res[i].url, res[i].url.split("/").pop(), res[i].timestamp.toString());
-                                                    console.log("File has Changed");
-                                                } else {
-                                                    console.log("File has not Changed");
                                                 }
                                             }
                                         },
@@ -186,7 +166,6 @@ var app = {
             // NO Internet NO Data.
             $("#app").append("Please Connect to the internet. You have NO data.");
             $('#app').toggleClass('hidden');
-            //console.log("NO Internet NO Data.");
         } else {
             // No Internet BUT Data is there.
             if(app.getBoolean(localStorage.getItem("isUserLoggedIn")) != true) {
@@ -195,20 +174,16 @@ var app = {
              app.displayPage("home.html");
              }
             $('#app').toggleClass('hidden');
-            //console.log("NO internet BUT Data Present.");
         }
         var dirReference = app.getDirectoryReference();
         dirReference.done(function(imgDir) {
-            console.log(imgDir);
             app.imgDir = imgDir;
         });
     },
     isConnectionAvailable: function() {
         return navigator.connection.type === Connection.NONE ? false : true;
-        //return true;
     },
     createTable: function (data, tableName, index) {
-        // TODO :: Add dbSuccess and dbError to the executeSql statements.
         data = data.split("&#");
         app.db.transaction(function (tx) {
             tx.executeSql("DROP TABLE IF EXISTS "+tableName,[]);
@@ -221,7 +196,6 @@ var app = {
                 app.getImageAssets();
                 app.dbChangeVersion(0, localStorage.getItem('dbLocalVersion'), localStorage.getItem('dbCurrentOnline'));
                 $('#loading').toggleClass('hidden');        // hides the loading screen again
-                // Since onResume the entire app div is emptied thus there is not need for hiding it.
                 if(app.getBoolean(localStorage.getItem("isUserLoggedIn")) != true) {
                     app.displayPage("login.html");
                 } else {
@@ -233,54 +207,39 @@ var app = {
     },
     getDirectoryReference: function () {
         var def = $.Deferred();
-
         var dirEntry = window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(rootDir) {
-            //now we have the data dir, get our asset dir
-            console.log("got main dir",rootDir);
             rootDir.getDirectory("assets/", {create:true}, function(subDir) {
                 localStorage.setItem("imgDir",subDir.toURL());
-                console.log("ok, got assets", subDir);
-                //we need access to this directory later, so copy it to globals
                 def.resolve(subDir);
             }, app.fileSystemError);
-
         }, app.fileSystemError);
         return def.promise();
     },
     fetchNewAssets: function(url, filename, timestamp) {
-        console.log("insert fetch url",url);
         var localFileURL = app.imgDir.toURL() + filename;
-        console.log("fetch to "+localFileURL);
-
         var ft = new FileTransfer();
         ft.download(url, localFileURL,
             function(entry) {
-                console.log("I finished it.");
                 app.imgDb.transaction(function (tx) {
                     tx.executeSql("INSERT INTO profile_pic (filename, timestamp) VALUES (?, ?)", [filename, timestamp]);
                 });
             },
-            app.fileSystemError);
+            app.fileSystemError
+        );
     },
     fetchUpdatedAssets: function(url, filename, timestamp) {
-        console.log("update fetch url",url);
         var localFileURL = app.imgDir.toURL() + filename;
-        console.log("fetch to "+localFileURL);
-
         var ft = new FileTransfer();
         ft.download(url, localFileURL,
             function(entry) {
-                console.log("I updated it.");
                 app.imgDb.transaction(function (tx) {
                     tx.executeSql("UPDATE profile_pic SET timestamp = "+timestamp+" WHERE filename = '"+filename+"'", []);
                 });
             },
-            app.fileSystemError);
+            app.fileSystemError
+        );
     },
     fileSystemError: function(e) {
-        //Something went wrong with the file system. Keep it simple for the end user.
-        console.log("FileSystem Error", e);
-        //navigator.notification.alert("Sorry, an error has occurred.", null,"Error","Dismiss");
     },
     dbChangeVersion: function(typeOfDb, dbOldVersion, dbUpdatedVersion) {
         try {
@@ -300,7 +259,7 @@ var app = {
     },
     dbChangeVersionTx: function(tx) {},
     dbChangeVersionError: function(error) {
-        alert('Error in Version Change. Error was :: '+error.message);
+        alert('An error occurred while updating the app data. Try AGAIN.');
         return true;
     },
     dbChangeVersionSuccess: function(typeOfDb, dbUpdatedVersion) {
@@ -314,10 +273,8 @@ var app = {
         }
     },
     dbTxError: function (error) {
-        alert('Oops.  Error was '+error.message+' (Code '+error.code+')');
     },
     dbQueryError: function(tx, error) {
-        alert('Oops.  Error was '+error.message+' (Code '+error.code+')');
     },
     validateRequest: function(element, index, array) {
         return (element == true);
@@ -373,11 +330,6 @@ var app = {
         if(url != "") {
             app.displayPage(url);
         } else {
-            /*var wantToExit = confirm("Do you want to exit ?");
-            if(wantToExit)
-                navigator.app.exitApp();
-            else
-                return;*/
             navigator.notification.confirm('Do you want to exit ?', app.onConfirm, 'Confirmation', ['Yes','No']);
         }
     },

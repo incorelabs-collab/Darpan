@@ -6,7 +6,6 @@ var pageBnA = {
         } else {
             compareDate += compareDay + "-";
         }
-
         if(compareMonth <10) {
             compareDate += "0" + compareMonth;
         } else {
@@ -26,7 +25,6 @@ var pageBnA = {
         app.displayPage("parentInfo.html");
     }
 };
-
 $(document).ready(function() {
     app.setCurrentPage("BnA.html");
     var noMaleBdayToday = false;
@@ -42,7 +40,6 @@ $(document).ready(function() {
     var todayMaleString = "<div class='panel-body'>";
     var tmrMaleString = "<div class='panel-body'>";
     var dayAfterMaleString = "<div class='panel-body'>";
-
     app.db.transaction(function (tx) {
         var buildDateQuery = "SELECT id, Name FROM male WHERE DOB LIKE '" + pageBnA.getCompareDate(todayMale.getDate(), (todayMale.getMonth() + 1)) +"%'";
         tx.executeSql(buildDateQuery, [],
@@ -52,9 +49,7 @@ $(document).ready(function() {
                 }
                 if(r.rows.length === 0)
                     noMaleBdayToday = true;
-
                 todayMale.setDate(todayMale.getDate() + 1);
-
                 buildDateQuery = "SELECT id, Name FROM male WHERE DOB LIKE '" + pageBnA.getCompareDate(todayMale.getDate(), (todayMale.getMonth() + 1)) +"%'";
                 tx.executeSql(buildDateQuery, [],
                     function (tx, r) {
@@ -63,9 +58,7 @@ $(document).ready(function() {
                         }
                         if(r.rows.length === 0)
                             noMaleBdayTmr = true;
-
                         todayMale.setDate(todayMale.getDate() + 1);
-
                         buildDateQuery = "SELECT id, Name FROM male WHERE DOB LIKE '" + pageBnA.getCompareDate(todayMale.getDate(), (todayMale.getMonth() + 1)) +"%'";
                         tx.executeSql(buildDateQuery, [],
                             function (tx, r) {
@@ -84,14 +77,12 @@ $(document).ready(function() {
             app.dbQueryError
         );
     });
-
     var todayFemale = new Date();
     var todayFemaleString = "";
     var tmrFemaleString = "";
     var dayAfterFemaleString = "";
-
     app.db.transaction(function (tx) {
-        buildDateQuery = "SELECT id, Name FROM female WHERE DOB LIKE '" + pageBnA.getCompareDate(todayFemale.getDate(), (todayFemale.getMonth() + 1)) +"%'";
+        var buildDateQuery = "SELECT id, Name FROM female WHERE DOB LIKE '" + pageBnA.getCompareDate(todayFemale.getDate(), (todayFemale.getMonth() + 1)) +"%'";
         tx.executeSql(buildDateQuery, [],
             function (tx, r) {
                 for(var i = 0;i<r.rows.length;i++) {
@@ -100,9 +91,7 @@ $(document).ready(function() {
                 if(r.rows.length === 0)
                     noFemaleBdayToday = true;
                 todayFemaleString += "</div>";
-
                 todayFemale.setDate(todayFemale.getDate() + 1);
-
                 buildDateQuery = "SELECT id, Name FROM female WHERE DOB LIKE '" + pageBnA.getCompareDate(todayFemale.getDate(), (todayFemale.getMonth() + 1)) +"%'";
                 tx.executeSql(buildDateQuery, [],
                     function (tx, r) {
@@ -111,11 +100,8 @@ $(document).ready(function() {
                         }
                         if(r.rows.length === 0)
                             noFemaleBdayTmr = true;
-
                         tmrFemaleString += "</div>";
-
                         todayFemale.setDate(todayFemale.getDate() + 1);
-
                         buildDateQuery = "SELECT id, Name FROM female WHERE DOB LIKE '" + pageBnA.getCompareDate(todayFemale.getDate(), (todayFemale.getMonth() + 1)) +"%'";
                         tx.executeSql(buildDateQuery, [],
                             function (tx, r) {
@@ -124,9 +110,7 @@ $(document).ready(function() {
                                 }
                                 if(r.rows.length === 0)
                                     noFemaleBdayDayAfter = true;
-
                                 dayAfterFemaleString += "</div>";
-
                                 if(noMaleBdayToday && noFemaleBdayToday) {
                                     todayMaleString = "<div class='panel-body'>";
                                     todayFemaleString = "No birthdays' Today</div>";
@@ -139,7 +123,6 @@ $(document).ready(function() {
                                     dayAfterMaleString = "<div class='panel-body'>";
                                     dayAfterFemaleString = "No birthdays' Day After Tomorrow</div>";
                                 }
-
                                 $("#todayBday").append(todayMaleString + todayFemaleString);
                                 $("#tmrBday").append(tmrMaleString + tmrFemaleString);
                                 $("#dayAfterBday").append(dayAfterMaleString + dayAfterFemaleString);
@@ -153,15 +136,12 @@ $(document).ready(function() {
             app.dbQueryError
         );
     });
-
     var todayAsary = new Date();
     var todayAsaryString = "<div class='panel-body'>";
     var tmrAsaryString = "<div class='panel-body'>";
     var dayAfterAsaryString = "<div class='panel-body'>";
-
     app.db.transaction(function (tx) {
-        buildDateQuery = "SELECT m.id m_id, m.Name m_name, f.id f_id, f.Name f_name FROM common c INNER JOIN male m ON c.id = m.id INNER JOIN female f ON m.spouse_id = f.id WHERE c.DOM LIKE '" + pageBnA.getCompareDate(todayAsary.getDate(), (todayAsary.getMonth() + 1)) +"%' ORDER BY m.Name";
-
+        var buildDateQuery = "SELECT m.id m_id, m.Name m_name, f.id f_id, f.Name f_name FROM common c INNER JOIN male m ON c.id = m.id INNER JOIN female f ON m.spouse_id = f.id WHERE c.DOM LIKE '" + pageBnA.getCompareDate(todayAsary.getDate(), (todayAsary.getMonth() + 1)) +"%' ORDER BY m.Name";
         tx.executeSql(buildDateQuery, [],
             function (tx, r) {
                 for(var i = 0;i<r.rows.length;i++) {
@@ -171,11 +151,8 @@ $(document).ready(function() {
                 }
                 if(r.rows.length === 0)
                     noAsaryToday = true;
-
                 todayAsaryString += "</div>";
-
                 todayAsary.setDate(todayAsary.getDate() + 1);
-
                 buildDateQuery = "SELECT m.id m_id, m.Name m_name, f.id f_id, f.Name f_name FROM common c INNER JOIN male m ON c.id = m.id INNER JOIN female f ON m.spouse_id = f.id WHERE c.DOM LIKE '" + pageBnA.getCompareDate(todayAsary.getDate(), (todayAsary.getMonth() + 1)) +"%' ORDER BY m.Name";
                 tx.executeSql(buildDateQuery, [],
                     function (tx, r) {
@@ -186,11 +163,8 @@ $(document).ready(function() {
                         }
                         if(r.rows.length === 0)
                             noAsaryTmr = true;
-
                         tmrAsaryString += "</div>";
-
                         todayAsary.setDate(todayAsary.getDate() + 1);
-
                         buildDateQuery = "SELECT m.id m_id, m.Name m_name, f.id f_id, f.Name f_name FROM common c INNER JOIN male m ON c.id = m.id INNER JOIN female f ON m.spouse_id = f.id WHERE c.DOM LIKE '" + pageBnA.getCompareDate(todayAsary.getDate(), (todayAsary.getMonth() + 1)) +"%' ORDER BY m.Name";
                         tx.executeSql(buildDateQuery, [],
                             function (tx, r) {
@@ -201,9 +175,7 @@ $(document).ready(function() {
                                 }
                                 if(r.rows.length === 0)
                                     noAsaryDayAfter = true;
-
                                 dayAfterAsaryString += "</div>";
-
                                 if(noAsaryToday) {
                                     todayAsaryString = "<div class='panel-body'>No anniversary Today</div>";
                                 }
@@ -213,7 +185,6 @@ $(document).ready(function() {
                                 if(noAsaryDayAfter) {
                                     dayAfterAsaryString = "<div class='panel-body'>No anniversary Day After Tomorrow</div>";
                                 }
-
                                 $("#todayAsary").append(todayAsaryString);
                                 $("#tmrAsary").append(tmrAsaryString);
                                 $("#dayAfterAsary").append(dayAfterAsaryString);

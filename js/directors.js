@@ -11,7 +11,6 @@ var pageDirectors = {
         app.displayPage("parentInfo.html");
     }
 };
-
 $(document).ready(function() {
     app.setCurrentPage("directors.html");
     var directorConcatString = "";
