@@ -164,8 +164,9 @@ var app = {
         // TODO :: In offline mode. if there is no data. Ask the user. to connect to internet. Give Refresh button.
         if(localStorage.getItem('dbLocalVersion') == -1) {
             // NO Internet NO Data.
-            $("#app").append("Please Connect to the internet. You have NO data.");
-            $('#app').toggleClass('hidden');
+            //$("#app").append("<h1>Please Connect to the internet. You have NO data.</h1>");
+            //$('#app').toggleClass('hidden');
+            navigator.notification.alert("You don't have a working internet connection.", app.checkConnection, "Offline", 'Try Again');
         } else {
             // No Internet BUT Data is there.
             if(app.getBoolean(localStorage.getItem("isUserLoggedIn")) != true) {

@@ -119,7 +119,11 @@ var searchMiniApp = {
                     searchConcatString += "<div class='row singleMemberImgAndData'><div class='col-xs-6 singleMemberImgData'><img src='"+imgDir+resultsID[i]+".jpg' class='img-responsive' onerror='pageSearchResults.imgError(this)'></div><div class='col-xs-6 singleData'>";
                     searchConcatString += "<a onclick='pageSearchResults.getKidsModal("+resultsID[i]+")' class='memberLink'><span>"+resultsName[i]+"</span></a></div></div><br/>";
                 } else {
-                    searchConcatString += "<div class='row singleMemberImgAndData'><div class='col-xs-6 singleMemberImgData'><img src='"+imgDir+resultsID[i]+".jpg' class='img-responsive' onerror='pageSearchResults.imgError(this)'></div><div class='col-xs-6 singleData'>";
+                    var imgId = resultsID[i];
+                    if(resultsID[i] % 2 == 0) {
+                        imgId = imgId - 1;
+                    }
+                    searchConcatString += "<div class='row singleMemberImgAndData'><div class='col-xs-6 singleMemberImgData'><img src='"+imgDir+imgId+".jpg' class='img-responsive' onerror='pageSearchResults.imgError(this)'></div><div class='col-xs-6 singleData'>";
                     searchConcatString += "<a onclick='pageSearchResults.getParentPage("+resultsID[i]+")' class='memberLink'><span>"+resultsName[i]+"</span></a></div></div><br/>";
                 }
             }

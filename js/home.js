@@ -35,7 +35,7 @@ var pageHome = {
     },
     onNotificationAPN: function(e) {
         if (e.alert) {
-            navigator.notification.alert(JSON.stringify(e), app.alertDismissed, 'Darpan', 'Dismiss');
+            navigator.notification.alert(e.alert, app.alertDismissed, e.acme, 'Dismiss');
         }
         if (e.badge) {
             pageHome.pushNotification.setApplicationIconBadgeNumber(pageHome.successHandler, e.badge);
@@ -66,7 +66,7 @@ var pageHome = {
                 break;
 
             case 'message':
-                navigator.notification.alert(JSON.stringify(e), app.alertDismissed, 'Darpan', 'Dismiss');
+                navigator.notification.alert(e.payload.message, app.alertDismissed, e.payload.title, 'Dismiss');
                 break;
 
             case 'error':
@@ -81,7 +81,7 @@ var pageHome = {
     successHandler: function(result) {
     },
     errorHandler: function(error) {
-        alert("An Error has occurred.");
+        alert("An ERROR has occurred while setting up PUSH notifications.");
     },
     changePage : function(url) {
         app.setBackPage("home.html");

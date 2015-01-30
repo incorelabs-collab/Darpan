@@ -21,6 +21,7 @@ a {
 
 a:hover {
     color: #333;
+    text-decoration: none;
 }
 
 .navbar-fixed-top {
@@ -33,6 +34,10 @@ a:hover {
 
 .homeContent{
     margin-top: 4em;
+}
+
+.disabled-icon {
+    opacity: 0.2;
 }
 
 /* App StartUp */
