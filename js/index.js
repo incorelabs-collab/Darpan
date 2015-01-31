@@ -166,7 +166,13 @@ var app = {
             // NO Internet NO Data.
             //$("#app").append("<h1>Please Connect to the internet. You have NO data.</h1>");
             //$('#app').toggleClass('hidden');
-            navigator.notification.alert("You don't have a working internet connection.", app.checkConnection, "Offline", 'Try Again');
+            if($('#startup_splash').length) {
+                setTimeout(function () {
+                    navigator.notification.confirm("You don't have a working internet connection.", app.onOfflineConfirm, 'Offline', ['Try Again','Exit']);
+                }, 5500);
+            } else {
+                navigator.notification.confirm("You don't have a working internet connection.", app.onOfflineConfirm, 'Offline', ['Try Again','Exit']);
+            }
         } else {
             // No Internet BUT Data is there.
             if(app.getBoolean(localStorage.getItem("isUserLoggedIn")) != true) {
@@ -339,6 +345,16 @@ var app = {
             navigator.app.exitApp();
         } else {
             return;
+        }
+    },
+    onOfflineConfirm: function(buttonIndex) {
+        console.log(buttonIndex);
+        if(buttonIndex == 2) {
+            navigator.app.exitApp();
+        } else if(buttonIndex == 1) {
+            app.checkConnection();
+        } else {
+            navigator.notification.confirm("You don't have a working internet connection.", app.onOfflineConfirm, 'Offline', ['Try Again','Exit']);
         }
     }
 };
