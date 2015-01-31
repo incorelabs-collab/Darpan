@@ -348,7 +348,6 @@ var app = {
         }
     },
     onOfflineConfirm: function(buttonIndex) {
-        console.log(buttonIndex);
         if(buttonIndex == 2) {
             navigator.app.exitApp();
         } else if(buttonIndex == 1) {
