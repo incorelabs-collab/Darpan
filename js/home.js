@@ -83,7 +83,7 @@ var pageHome = {
     errorHandler: function(error) {
         alert("An ERROR has occurred while setting up PUSH notifications.");
     },
-    changePage : function(url) {
+    changePage: function(url) {
         app.setBackPage("home.html");
         app.displayPage(url);
     }
