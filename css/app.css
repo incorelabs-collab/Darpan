@@ -84,6 +84,11 @@ a:hover {
     display: inline-block;
 }
 
+#link_or {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
 /* Headers for all pages except Login */
 
 .page-header {
