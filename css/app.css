@@ -27,6 +27,10 @@ a:hover {
     z-index: 1;
 }
 
+.navbar-fixed-bottom {
+    z-index: 1;
+}
+
 .homeData {
     margin-top: 5em;
     margin-bottom: 6em;
