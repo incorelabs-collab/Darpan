@@ -28,7 +28,6 @@ var pageHome = {
                     // TODO : Add functionality to check if the registration was successful for Apple iOS.
                 },
                 error: function(error) {
-                    alert(error);
                 }
             });
         }
@@ -58,7 +57,6 @@ var pageHome = {
                                 // TODO : Add functionality to check if the registration was successful for Google Android.
                             },
                             error: function(error) {
-                                alert(error);
                             }
                         });
                     }
@@ -86,6 +84,27 @@ var pageHome = {
     changePage: function(url) {
         app.setBackPage("home.html");
         app.displayPage(url);
+    },
+    launchAlbumsPage: function() {
+        if(app.isConnectionAvailable()) {
+            if (device.platform == 'android' || device.platform == 'Android') {
+                window.open("http://darpan.incorelabs.com/gallery/index.php", "_blank","location=no");
+            } else {
+                window.open("http://darpan.incorelabs.com/gallery/index.php", "_blank","location=no,closebuttoncaption=Close");
+            }
+        } else {
+            navigator.notification.confirm("You don't have a working internet connection.", pageHome.onOfflineConfirm, 'Offline', ['Try Again','Dismiss']);
+        }
+    },
+    launchAdPage: function() {
+        window.open("http://www.cbazaar.in/?utm_source=utmlink&utm_medium=Digital&utm_campaign=Darpanapp", "_system");
+    },
+    onOfflineConfirm: function(buttonIndex) {
+        if(buttonIndex == 1) {
+            pageHome.launchAlbumsPage();
+        } else {
+            return;
+        }
     }
 }
 

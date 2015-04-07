@@ -25,11 +25,6 @@ var pageLogin = {
     },
     onLoginSuccess: function() {
         localStorage.setItem("isUserLoggedIn", true);
-        localStorage.removeItem("backLog");
         app.displayPage("home.html");
-    },
-    changePage: function(url) {
-        app.setBackPage("login.html");
-        app.displayPage(url);
     }
 };
