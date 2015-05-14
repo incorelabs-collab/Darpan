@@ -88,23 +88,65 @@ var pageHome = {
     launchAlbumsPage: function() {
         if(app.isConnectionAvailable()) {
             if (device.platform == 'android' || device.platform == 'Android') {
-                window.open("http://darpan.incorelabs.com/gallery/index.php", "_blank","location=no");
+                pageHome.gallery_ref = window.open("http://darpan.incorelabs.com/gallery/index.php", "_blank","location=no,hidden=yes,zoom=no");
             } else {
-                window.open("http://darpan.incorelabs.com/gallery/index.php", "_blank","location=no,closebuttoncaption=Close");
+                pageHome.gallery_ref = window.open("http://darpan.incorelabs.com/gallery/index.php", "_blank","location=no,closebuttoncaption=Close,hidden=yes");
             }
+            pageHome.gallery_ref.addEventListener('loadstart', pageHome.galleryLoadStart);
+            pageHome.gallery_ref.addEventListener('loaderror', pageHome.galleryLoadError);
+            pageHome.gallery_ref.addEventListener('loadstop', pageHome.galleryLoadStop);
+            pageHome.gallery_ref.addEventListener('exit', pageHome.galleryExit);
+            // 10 second timeout so that user does not have to wait for very long for loaderror to fire.
         } else {
-            navigator.notification.confirm("You don't have a working internet connection.", pageHome.onOfflineConfirm, 'Offline', ['Try Again','Dismiss']);
+            navigator.notification.confirm("You don't have a working internet connection.", pageHome.onGalleryConfirm, 'Offline', ['Try Again','Dismiss']);
         }
     },
     launchAdPage: function() {
         window.open("http://www.cbazaar.in/?utm_source=utmlink&utm_medium=Digital&utm_campaign=Darpanapp", "_system");
     },
-    onOfflineConfirm: function(buttonIndex) {
+    onGalleryConfirm: function(buttonIndex) {
         if(buttonIndex == 1) {
             pageHome.launchAlbumsPage();
         } else {
             return;
         }
+    },
+    gallery_ref: {},
+    gallery_error_flag: false,
+    galleryLoadStart: function(event) {
+        if (device.platform == 'android' || device.platform == 'Android') {
+            window.plugins.spinnerDialog.show("Please Wait", "Loading...", true);
+        } else {
+            ProgressIndicator.showSimpleWithLabel(true, "Loading...");
+        }
+    },
+    galleryLoadError: function(event) {
+        pageHome.gallery_error_flag = true;
+    },
+    galleryLoadStop: function(event) {
+        if (device.platform == 'android' || device.platform == 'Android') {
+            window.plugins.spinnerDialog.hide();
+        } else {
+            ProgressIndicator.hide();
+        }
+
+        pageHome.gallery_ref.removeEventListener('loaderror', pageHome.galleryLoadError);
+
+        if(pageHome.gallery_error_flag) {
+            pageHome.gallery_ref.removeEventListener('loadstart', pageHome.galleryLoadStart);
+            pageHome.gallery_ref.removeEventListener('loadstop', pageHome.galleryLoadStop);
+            pageHome.gallery_ref.removeEventListener('exit', pageHome.galleryExit);
+            pageHome.gallery_error_flag = false;
+            navigator.notification.confirm("Would you like to Try Again ?", pageHome.onGalleryConfirm, 'Try Again', ['Retry','Cancel']);
+
+        } else {
+            pageHome.gallery_ref.show();
+        }
+    },
+    galleryExit: function(event) {
+        pageHome.gallery_ref.removeEventListener('loadstart', pageHome.galleryLoadStart);
+        pageHome.gallery_ref.removeEventListener('loadstop', pageHome.galleryLoadStop);
+        pageHome.gallery_ref.removeEventListener('exit', pageHome.galleryExit);
     }
 }
 

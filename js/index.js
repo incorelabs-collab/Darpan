@@ -3,22 +3,26 @@ var app = {
     imgDir: {},
     backLog: [],
     backURL: "",
-    db: (function() {
+    db: {},
+    imgDb: {},
+    getAppDb: function() {
         if(localStorage.getItem('dbLocalVersion') == null) {
             localStorage.setItem('dbLocalVersion','-1');
         }
         return openDatabase('dbDarpan', localStorage.getItem('dbLocalVersion'), 'dbDarpan', (5 * 1022 * 1022));
-    })(),
-    imgDb: (function() {
+    },
+    getImgDb: function() {
         if(localStorage.getItem('imgDbLocalVersion') == null) {
             localStorage.setItem('imgDbLocalVersion','-1');
         }
         return openDatabase('imgDbDarpan', localStorage.getItem('imgDbLocalVersion'), 'imgDbDarpan', (5 * 1022 * 1022));
-    })(),
+    },
     initialize: function() {
         document.addEventListener('deviceready', app.onDeviceReady, false);
     },
     onDeviceReady: function() {
+        app.db = app.getAppDb();
+        app.imgDb = app.getImgDb();
         navigator.splashscreen.show();
         document.addEventListener('backbutton', app.onBackKeyDown, false);
         localStorage.removeItem('backLog');
