@@ -265,12 +265,12 @@ var app = {
                     break;
             }
         } catch(e) {
-            alert('An error occurred while updating the app data. Try AGAIN.');
+            navigator.notification.alert("An error occurred while updating the app data.", app.alertDismissed, "Update Failed", "Dismiss");
         }
     },
     dbChangeVersionTx: function(tx) {},
     dbChangeVersionError: function(error) {
-        alert('An error occurred while updating the app data. Try AGAIN.');
+        navigator.notification.alert("An error occurred while updating the app data.", app.alertDismissed, "Update Failed", "Dismiss");
         return true;
     },
     dbChangeVersionSuccess: function(typeOfDb, dbUpdatedVersion) {

@@ -117,6 +117,6 @@ $('form').on('submit', function(e){
             }
         });
     } else {
-        alert("No Internet Connection. Try Again Later!");
+        navigator.notification.alert("No Internet Connection. Try Again Later!", app.alertDismissed, "Connection Error", "Dismiss");
     }
 });

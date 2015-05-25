@@ -68,18 +68,18 @@ var pageHome = {
                 break;
 
             case 'error':
-                alert(e.msg);
+                navigator.notification.alert(e.msg, app.alertDismissed, "Error", "Dismiss");
                 break;
 
             default:
-                alert("An error has occurred with our Server. Sorry for the inconvenience.");
+                navigator.notification.alert("An error has occurred with our Server. Sorry for the inconvenience.", app.alertDismissed, "Connection Error", "Dismiss");
                 break;
         }
     },
     successHandler: function(result) {
     },
     errorHandler: function(error) {
-        alert("An ERROR has occurred while setting up PUSH notifications.");
+        navigator.notification.alert("An ERROR has occurred while setting up PUSH notifications.", app.alertDismissed, "PUSH Notification Error", "Dismiss");
     },
     changePage: function(url) {
         app.setBackPage("home.html");
