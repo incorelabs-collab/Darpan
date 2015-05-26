@@ -108,7 +108,8 @@ $(document).ready(function() {
             spouseUserId = userId - 1;
             commonMaleId = userId - 1;
         }
-        var buildUserColumnNameQuery = "SELECT sql FROM sqlite_master WHERE type='table' AND name = '"+userTableName+"'";        tx.executeSql(buildUserColumnNameQuery, [],
+        var buildUserColumnNameQuery = "SELECT sql FROM sqlite_master WHERE type='table' AND name = '"+userTableName+"'";
+        tx.executeSql(buildUserColumnNameQuery, [],
             function(tx, r) {
                 var columnParts = r.rows.item(0).sql.replace(/^[^\(]+\(([^\)]+)\)/g, '$1').split(', ');
                 var userColumnNames = [];
