@@ -8,7 +8,54 @@
 </header>
 <br/>
 <br/>
-<div class="container homeContent" align="center">
+<div class="container homeContent">
+    <div class='panel-group' id='searchData'>
+        <div class='panel panel-default'>
+            <div class='panel-heading'>
+                <h4 class='panel-title'>
+                    <a data-toggle='collapse' data-parent='#searchData' href='#searchMale' class='searchHeaderFont'>
+                        Male
+                    </a>
+                    <span class="searchResultsCount badge pull-right" id="maleResultsCount"></span>
+                </h4>
+            </div>
+            <div id='searchMale' class='panel-collapse collapse' align="center">
+                <div class='panel-body' id='searchMaleData'>
+                    
+                </div>
+            </div>
+        </div>
+        <div class='panel panel-default'>
+            <div class='panel-heading'>
+                <h4 class='panel-title'>
+                    <a data-toggle='collapse' data-parent='#searchData' href='#searchFemale' class='searchHeaderFont'>
+                        Female
+                    </a>
+                    <span class="searchResultsCount badge pull-right" id="femaleResultsCount"></span>
+                </h4>
+            </div>
+            <div id='searchFemale' class='panel-collapse collapse' align="center">
+                <div class='panel-body' id='searchFemaleData'>
+                    
+                </div>
+            </div>
+        </div>
+        <div class='panel panel-default'>
+            <div class='panel-heading'>
+                <h4 class='panel-title'>
+                    <a data-toggle='collapse' data-parent='#searchData' href='#searchKids' class='searchHeaderFont'>
+                        Kids
+                    </a>
+                    <span class="searchResultsCount badge pull-right" id="kidsResultsCount"></span>
+                </h4>
+            </div>
+            <div id='searchKids' class='panel-collapse collapse' align="center">
+                <div class='panel-body' id='searchKidsData'>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <!-- Kids Modal -->
 <div class="modal" id="kidsModal" tabindex="-1" role="dialog" aria-labelledby="kidsLabel" aria-hidden="true">

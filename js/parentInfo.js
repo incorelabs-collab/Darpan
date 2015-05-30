@@ -69,9 +69,6 @@ var pageParentInfo = {
                             $("#kidsHeader").append(kidsHeaderString);
                             $("#kidsBody").append(kidsBodyString);
                             $('#kidsModal').modal('show');
-                            $('#kidsModal').on('shown.bs.modal', function (e) {
-                                $("[data-toggle='popover']").popover();
-                            });
                             kidsHeaderString = "";
                             kidsBodyString = "";
                         },
@@ -237,6 +234,9 @@ $(document).ready(function() {
                                                         $("#parentBody").append(parentBodyString);
                                                         pageParentInfo.checkImage(commonMaleId);
                                                         $("[data-toggle='popover']").popover();
+                                                        $('#kidsModal').on('shown.bs.modal', function (e) {
+                                                            $("[data-toggle='popover']").popover();
+                                                        });
                                                         parentHeaderString = "";
                                                         parentBodyString = "";
                                                         kidsOnParentString = "";
