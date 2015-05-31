@@ -96,7 +96,23 @@ var pageHome = {
             pageHome.gallery_ref.addEventListener('loaderror', pageHome.galleryLoadError);
             pageHome.gallery_ref.addEventListener('loadstop', pageHome.galleryLoadStop);
             pageHome.gallery_ref.addEventListener('exit', pageHome.galleryExit);
-            // 10 second timeout so that user does not have to wait for very long for loaderror to fire.
+            setTimeout(function() {
+                if(localStorage.getItem("galleryLoading") == "true") {
+                    localStorage.removeItem("galleryLoading");
+                    pageHome.gallery_ref.removeEventListener('loadstart', pageHome.galleryLoadStart);
+                    pageHome.gallery_ref.removeEventListener('loaderror', pageHome.galleryLoadError);
+                    pageHome.gallery_ref.removeEventListener('loadstop', pageHome.galleryLoadStop);
+                    pageHome.gallery_ref.removeEventListener('exit', pageHome.galleryExit);
+                    pageHome.gallery_ref.close();
+                    pageHome.gallery_error_flag = false;
+                    if (device.platform == 'android' || device.platform == 'Android') {
+                        window.plugins.spinnerDialog.hide();
+                    } else {
+                        ProgressIndicator.hide();
+                    }
+                    navigator.notification.confirm("Would you like to Try Again ?", pageHome.onGalleryConfirm, 'Try Again', ['Retry','Cancel']);
+                }
+            }, 15000);
         } else {
             navigator.notification.confirm("You don't have a working internet connection.", pageHome.onGalleryConfirm, 'Offline', ['Try Again','Dismiss']);
         }
@@ -114,6 +130,7 @@ var pageHome = {
     gallery_ref: {},
     gallery_error_flag: false,
     galleryLoadStart: function(event) {
+        localStorage.setItem("galleryLoading",true);
         if (device.platform == 'android' || device.platform == 'Android') {
             window.plugins.spinnerDialog.show("Please Wait", "Loading...", true);
         } else {
@@ -124,6 +141,7 @@ var pageHome = {
         pageHome.gallery_error_flag = true;
     },
     galleryLoadStop: function(event) {
+        localStorage.removeItem("galleryLoading");
         if (device.platform == 'android' || device.platform == 'Android') {
             window.plugins.spinnerDialog.hide();
         } else {
@@ -136,6 +154,7 @@ var pageHome = {
             pageHome.gallery_ref.removeEventListener('loadstart', pageHome.galleryLoadStart);
             pageHome.gallery_ref.removeEventListener('loadstop', pageHome.galleryLoadStop);
             pageHome.gallery_ref.removeEventListener('exit', pageHome.galleryExit);
+            pageHome.gallery_ref.close();
             pageHome.gallery_error_flag = false;
             navigator.notification.confirm("Would you like to Try Again ?", pageHome.onGalleryConfirm, 'Try Again', ['Retry','Cancel']);
 
