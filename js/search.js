@@ -3,7 +3,14 @@ var searchMiniApp = {
         $("#memberName").val("");
         $("#bloodGroup").val("");
         $("#memberOccupation").val("");
+        $('#searchModal').on('shown.bs.modal', function (e) {
+            localStorage.setItem("openModal","#searchModal");
+        });
         $('#searchModal').modal('show');
+    },
+    closeSearchModal: function() {
+        $('#searchModal').modal('hide');
+        localStorage.removeItem("openModal");
     },
     validateSearchForm: function() {
         if($("#memberName").val() == "" && $("#bloodGroup").val() == "" && $("#memberOccupation").val() == "") {
@@ -161,6 +168,7 @@ var searchMiniApp = {
         
         app.setBackPage(app.getCurrentPage());
         $('#searchModal').modal('hide');
+        localStorage.removeItem("openModal");
         setTimeout(function () {
             app.displayPage("search_results.html");
         },100);

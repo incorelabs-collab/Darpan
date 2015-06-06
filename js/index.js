@@ -25,6 +25,7 @@ var app = {
         app.imgDb = app.getImgDb();
         navigator.splashscreen.show();
         document.addEventListener('backbutton', app.onBackKeyDown, false);
+        localStorage.removeItem("openModal");
         localStorage.removeItem('backLog');
         $('#app').toggleClass('hidden');            // Hides the app div.
         $('#loading').toggleClass('hidden');        // Shows the loading screen.
@@ -337,6 +338,11 @@ var app = {
     onBackKeyDown: function() {
         $(".popover").remove();
         $('body').removeClass();
+        if(localStorage.getItem("openModal") != null) {
+            $(localStorage.getItem("openModal")).modal('hide');
+            localStorage.removeItem("openModal");
+            return;
+        }
         var url = app.getBackPage();
         if(url != "") {
             app.displayPage(url);

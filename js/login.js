@@ -1,7 +1,7 @@
 var pageLogin = {
     validateCredentials: function() {
-        var user_name_value = $("#username").val();
-        var password_value = $("#password").val();
+        var user_name_value = $("#username").val().trim();
+        var password_value = $("#password").val().trim();
         app.db.transaction(function (tx) {
             var buildUserValidateQuery = "SELECT COUNT(user_id) count, user_id FROM users WHERE username='"+user_name_value+"' AND password='"+password_value+"'";
             tx.executeSql(buildUserValidateQuery, [], function (tx, r) {

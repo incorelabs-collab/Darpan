@@ -4,7 +4,7 @@
             <span class="glyphicon glyphicon-circle-arrow-left"></span>
         </button>
         <h2 class="headerText">Wish Them</h2>
-        <button class="navbar-toggle" type="button" onclick="searchMiniApp.openSearchForm();">
+        <button id="search_icon" class="navbar-toggle" type="button" onclick="searchMiniApp.openSearchForm();">
           <span class="glyphicon glyphicon-search"></span>
         </button>
     </div>
@@ -127,11 +127,11 @@
     </div>
 </div>
 <!-- Search Modal -->
-<div class="modal" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchLabel" aria-hidden="true">
+<div class="modal" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchLabel" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <button type="button" class="close" onclick="searchMiniApp.closeSearchModal();" aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="searchLabel" align="center">Search</h4>
             </div>
             <div class="modal-body">
@@ -161,10 +161,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="search_btn"
-                        onclick="searchMiniApp.validateSearchForm();">Search
-                </button>
+                <button type="button" class="btn btn-default" id="search_close_btn" onclick="searchMiniApp.closeSearchModal();">Close</button>
+                <button type="button" class="btn btn-primary" id="search_btn" onclick="searchMiniApp.validateSearchForm();">Search</button>
             </div>
         </div>
     </div>

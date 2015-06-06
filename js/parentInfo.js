@@ -78,6 +78,10 @@ var pageParentInfo = {
                 app.dbQueryError
             );
         });
+    },
+    closeKidsModal: function() {
+        $('#kidsModal').modal('hide');
+        localStorage.removeItem("openModal");
     }
 };
 $(document).ready(function() {
@@ -141,7 +145,7 @@ $(document).ready(function() {
                                                 tx.executeSql(buildKidsNameQuery, [],
                                                     function(tx, r) {
                                                         if(r.rows.length > 0) {
-                                                            kidsOnParentString += "<div class='container-fluid listItems bg-primary otherDetail'><div class='col-xs-12 col-sm-12 pull-left'><h3>Kids</h3></div></div>";
+                                                            kidsOnParentString += "<div class='container-fluid listItems bg-primary'><div class='col-xs-12 col-sm-12 pull-left'><h2 class='childrenLabel'>Kids</h2></div></div>";
                                                             for(var i =0;i< r.rows.length; i++) {
                                                                 kidsOnParentString += "<div class='container detailContent'><div class='row'><a onclick='pageParentInfo.getKidsModal("+r.rows.item(i).id+")'><div class='col-xs-4'><img src='img/customer.png' class='thumbnail'></div><div class='col-xs-8'><div class='detailKidName'>"+r.rows.item(i).Name+"</div></div></a></div></div>";
                                                             }
@@ -198,8 +202,13 @@ $(document).ready(function() {
                                                                         parentBodyString += "<div class='row listItems'><div class='col-xs-10 col-sm-11 pull-left'><h4 class='infoTitleLabel'>Office Phone</h4><h5 class='infoTitleDetail'>"+val+"</h5></div><div class='col-xs-2 col-sm-1 pull-right'><a data-container='body' data-toggle='popover' data-placement='left' data-content=\"<a href='tel:"+val+"'><button class='btn btn-primary'>Call</button></a>\" data-html='true'><span class='glyphicon glyphicon-phone-alt Icon'></span></a></div></div>";
                                                                         break;
                                                                 }
+                                                            } else if (index == "off_addr_pin") {
+                                                                if(flag) {
+                                                                    parentBodyString += "</h5></div><div class='col-xs-2 col-sm-1 pull-right'><span class='glyphicon glyphicon-briefcase Icon'></span></div></div>";
+                                                                }
                                                             }
                                                         });
+                                                        flag = false;
                                                         $.each(commonData, function(index, val) {
                                                             if(val != null) {
                                                                 switch(index) {
@@ -227,6 +236,10 @@ $(document).ready(function() {
                                                                         parentBodyString += "<div class='row listItems'><div class='col-xs-10 col-sm-11 pull-left'><h4 class='infoTitleLabel'>Residence Phone</h4><h5 class='infoTitleDetail'>"+val+"</h5></div><div class='col-xs-2 col-sm-1 pull-right'><a data-container='body' data-toggle='popover' data-placement='left' data-content=\"<a href='tel:"+val+"'><button class='btn btn-primary'>Call</button></a>\" data-html='true'><span class='glyphicon glyphicon-earphone Icon'></span></a></div></div>";
                                                                         break;
                                                                 }
+                                                            } else if (index == "res_addr_pin") {
+                                                                if(flag) {
+                                                                    parentBodyString += "</h5></div><div class='col-xs-2 col-sm-1 pull-right'><span class='glyphicon glyphicon-home Icon'></span></div></div>";
+                                                                }
                                                             }
                                                         });
                                                         parentHeaderString += "</div></div>";
@@ -235,6 +248,7 @@ $(document).ready(function() {
                                                         pageParentInfo.checkImage(commonMaleId);
                                                         $("[data-toggle='popover']").popover();
                                                         $('#kidsModal').on('shown.bs.modal', function (e) {
+                                                            localStorage.setItem("openModal","#kidsModal");
                                                             $("[data-toggle='popover']").popover();
                                                         });
                                                         parentHeaderString = "";

@@ -127,6 +127,10 @@ a:hover {
     display: inherit;
 }
 
+#search_icon {
+    background-color: transparent;
+}
+
 /* Members Page */
 .memberImgAndData {
     border-style: outset;
@@ -282,6 +286,11 @@ a:hover {
 .spouseInfoTitleDetail {
     font-size: 1.3em;
     color: forestgreen;
+}
+
+.childrenLabel {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
 }
 
 .infoTitleLabel {

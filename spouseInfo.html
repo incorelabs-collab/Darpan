@@ -10,16 +10,16 @@
 <br/>
 <div class="container detailContent" id="parentHeader">
 </div>
-<div class="container-fluid otherDetail" id="parentBody">
+<div class="container-fluid" id="parentBody">
 </div>
 <div id="kidsOnParent">
 </div>
 <!-- Kids Modal -->
-<div class="modal" id="kidsModal" tabindex="-1" role="dialog" aria-labelledby="kidsLabel" aria-hidden="true">
+<div class="modal" id="kidsModal" tabindex="-1" role="dialog" aria-labelledby="kidsLabel" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <button type="button" class="close" onclick="pageSpouseInfo.closeKidsModal();" aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="kidsLabel" align="center">Profile</h4>
             </div>
             <div class="modal-body" id="kidsBodyModal">
@@ -29,7 +29,7 @@
                 </div>
             </div>
             <div class="modal-footer" id="kidsFooterModal">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="kids_close_btn" onclick="pageSpouseInfo.closeKidsModal();">Close</button>
             </div>
         </div>
     </div>
