@@ -112,13 +112,43 @@ var pageHome = {
                     }
                     navigator.notification.confirm("Would you like to Try Again ?", pageHome.onGalleryConfirm, 'Try Again', ['Retry','Cancel']);
                 }
-            }, 15000);
+            }, 25000);
         } else {
             navigator.notification.confirm("You don't have a working internet connection.", pageHome.onGalleryConfirm, 'Offline', ['Try Again','Dismiss']);
         }
     },
     launchAdPage: function() {
-        window.open("http://www.cbazaar.in/?utm_source=utmlink&utm_medium=Digital&utm_campaign=Darpanapp", "_system");
+        var footerAdImg = JSON.parse(localStorage.getItem("footerAdImg"));
+        if(footerAdImg.call != null && footerAdImg.link != null) {
+            navigator.notification.confirm("You could do any of the following.", pageHome.onBothNotNullConfirm, "What Next?", ['Call', 'Website', 'Cancel']);
+        } else if(footerAdImg.call != null) {
+            navigator.notification.confirm("You could do any of the following.", pageHome.onCallNotNullConfirm, "What Next?", ['Call', 'Cancel']);
+        } else if(footerAdImg.link != null) {
+            navigator.notification.confirm("You could do any of the following.", pageHome.onLinkNotNullConfirm, "What Next?", ['Website', 'Cancel']);
+        }
+    },
+    onBothNotNullConfirm: function(buttonIndex) {
+        if (buttonIndex == 1) {
+            window.location = "tel:"+JSON.parse(localStorage.getItem("footerAdImg")).call;
+        } else if (buttonIndex == 2) {
+            window.open(JSON.parse(localStorage.getItem("footerAdImg")).link, "_system");
+        } else {
+            return;
+        }
+    },
+    onCallNotNullConfirm: function(buttonIndex) {
+        if (buttonIndex == 1) {
+            window.location = "tel:"+JSON.parse(localStorage.getItem("footerAdImg")).call;
+        } else {
+            return;
+        }
+    },
+    onLinkNotNullConfirm: function(buttonIndex) {
+        if (buttonIndex == 1) {
+            window.open(JSON.parse(localStorage.getItem("footerAdImg")).link, "_system");
+        } else {
+            return;
+        }
     },
     onGalleryConfirm: function(buttonIndex) {
         if(buttonIndex == 1) {
@@ -171,5 +201,9 @@ var pageHome = {
 
 $(document).ready(function() {
     app.setCurrentPage("home.html");
+    if(localStorage.getItem("footerAdImg") != null) {
+        var imgDir = localStorage.getItem("imgDir");
+        $("#footerAdBlock").append("<img src='"+imgDir+JSON.parse(localStorage.getItem("footerAdImg")).url+"' class='img-responsive' />");
+    }
     pageHome.initPush();
 });

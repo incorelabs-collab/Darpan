@@ -13,6 +13,7 @@ var pageParentInfo = {
         img.src = imgURL;  // fires off loading of image
     },
     getSpousePage: function(id) {
+        $(".popover").remove();
         app.setBackPage("parentInfo.html");
         localStorage.setItem("spouse_id", id);
         if(id % 2 == 0) {

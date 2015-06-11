@@ -110,8 +110,19 @@ $('form').on('submit', function(e){
     jsonObj = jsonObj.slice(0,-1);
     jsonObj += "}";
     if(app.isConnectionAvailable()) {
+        $('#rsvpModal').modal('hide');
+        localStorage.removeItem("openModal");
+        if (device.platform == 'android' || device.platform == 'Android') {
+            window.plugins.spinnerDialog.show("Please Wait", "Syncing with Server...", true);
+        } else {
+            ProgressIndicator.showSimpleWithLabel(true, "Syncing with Server...");
+        }
         $.post("http://darpan.incorelabs.com/rsvp.php", JSON.parse(jsonObj), function(data, textStatus, xhr) {
-            $('#rsvpModal').modal('hide');
+            if (device.platform == 'android' || device.platform == 'Android') {
+                window.plugins.spinnerDialog.hide();
+            } else {
+                ProgressIndicator.hide();
+            }
             if(data == "1") {
                 navigator.notification.alert("Your response has been submitted. Thank - you.", app.alertDismissed, "R.S.V.P.");
                 $("#"+localStorage.getItem("rsvp_button")).parent().remove();
@@ -121,8 +132,15 @@ $('form').on('submit', function(e){
                 $("#"+localStorage.getItem("rsvp_button")).parent().remove();
                 localStorage.setItem("rsvp_done_string",(localStorage.getItem("rsvp_done_string")+localStorage.getItem("rsvp_event_id")+","));
             } else if(data == "0") {
-                navigator.notification.alert("Oops! Error with the Server.", app.alertDismissed, "TRY Again!");
+                navigator.notification.alert("Oops! Error with the Server.", app.alertDismissed, "Try Again!");
             }
+        }).fail(function() {
+            if (device.platform == 'android' || device.platform == 'Android') {
+                window.plugins.spinnerDialog.hide();
+            } else {
+                ProgressIndicator.hide();
+            }
+            navigator.notification.alert("RSVP NOT submitted. Try Again Later!", app.alertDismissed, "Try Again!");
         });
     } else {
         navigator.notification.alert("No Internet Connection. Try Again Later!", app.alertDismissed, "Connection Error", "Dismiss");

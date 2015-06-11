@@ -47,6 +47,7 @@ var app = {
             });
         }
         localStorage.setItem("hitImageServer",false);
+        localStorage.setItem("hitAdServer",false);
         app.checkConnection();
     },
     checkConnection: function () {
@@ -116,6 +117,7 @@ var app = {
         } else {
             // Internet BUT Data is Up to Date.
             app.getImageAssets();
+            app.getFooterAd();
             if(app.getBoolean(localStorage.getItem("isUserLoggedIn")) != true) {
                 app.displayPage("login.html");
             } else {
@@ -167,6 +169,26 @@ var app = {
             }
         });
     },
+    getFooterAd: function() {
+        var urlImages = 'http://darpan.incorelabs.com/ads/file-list.php?key=kamlesh';
+        var dirReference = app.getDirectoryReference();
+        dirReference.done(function(imgDir) {
+            app.imgDir = imgDir;
+            if(app.getBoolean(localStorage.getItem("hitAdServer")) != true){
+                // Once per app server hit.
+                $.getJSON(urlImages).done(function(res) {
+                    if(localStorage.getItem("footerAdImg") == null) {
+                    app.fetchFooterAd(res[0].url, res[0].url.split("/").pop(), res[0].timestamp.toString(), res[0].call, res[0].link);
+                    } else {
+                        if(JSON.parse(localStorage.getItem("footerAdImg")).timestamp != res[0].timestamp) {
+                            app.fetchFooterAd(res[0].url, res[0].url.split("/").pop(), res[0].timestamp.toString(), res[0].call, res[0].link);
+                        }
+                    }
+                    localStorage.setItem("hitAdServer",true);
+                });
+            }
+        });
+    },
     doOfflineTasks: function() {
         if(localStorage.getItem('dbLocalVersion') == -1) {
             // NO Internet NO Data.
@@ -206,6 +228,7 @@ var app = {
             app.requestStatus[index] = true;
             if(app.requestStatus.every(app.validateRequest)) {
                 app.getImageAssets();
+                app.getFooterAd();
                 app.dbChangeVersion(0, localStorage.getItem('dbLocalVersion'), localStorage.getItem('dbCurrentOnline'));
                 if(app.getBoolean(localStorage.getItem("isUserLoggedIn")) != true) {
                     app.displayPage("login.html");
@@ -247,6 +270,17 @@ var app = {
                 app.imgDb.transaction(function (tx) {
                     tx.executeSql("UPDATE profile_pic SET timestamp = "+timestamp+" WHERE filename = '"+filename+"'", []);
                 });
+            },
+            app.fileSystemError
+        );
+    },
+    fetchFooterAd: function(url, filename, timestamp, call, link) {
+        var localFileURL = app.imgDir.toURL() + filename;
+        var ft = new FileTransfer();
+        ft.download(url, localFileURL,
+            function(entry) {
+                var footerAdImg = {url:filename, timestamp:timestamp, call: call, link: link};
+                localStorage.setItem("footerAdImg",JSON.stringify(footerAdImg));
             },
             app.fileSystemError
         );
