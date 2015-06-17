@@ -47,7 +47,7 @@ var app = {
             });
         }
         localStorage.setItem("hitImageServer",false);
-        localStorage.setItem("hitAdServer",false);
+        localStorage.setItem("hitFooterAdServer",false);
         app.checkConnection();
     },
     checkConnection: function () {
@@ -174,7 +174,7 @@ var app = {
         var dirReference = app.getDirectoryReference();
         dirReference.done(function(imgDir) {
             app.imgDir = imgDir;
-            if(app.getBoolean(localStorage.getItem("hitAdServer")) != true){
+            if(app.getBoolean(localStorage.getItem("hitFooterAdServer")) != true){
                 // Once per app server hit.
                 $.getJSON(urlImages).done(function(res) {
                     if(localStorage.getItem("footerAdImg") == null) {
@@ -182,9 +182,12 @@ var app = {
                     } else {
                         if(JSON.parse(localStorage.getItem("footerAdImg")).timestamp != res[0].timestamp) {
                             app.fetchFooterAd(res[0].url, res[0].url.split("/").pop(), res[0].timestamp.toString(), res[0].call, res[0].link);
+                        } else {
+                            var footerAdImg = {url:res[0].url.split("/").pop(), timestamp:res[0].timestamp.toString(), call:res[0].call, link:res[0].link};
+                            localStorage.setItem("footerAdImg",JSON.stringify(footerAdImg));
                         }
                     }
-                    localStorage.setItem("hitAdServer",true);
+                    localStorage.setItem("hitFooterAdServer",true);
                 });
             }
         });
