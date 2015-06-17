@@ -178,7 +178,7 @@ var app = {
                 // Once per app server hit.
                 $.getJSON(urlImages).done(function(res) {
                     if(localStorage.getItem("footerAdImg") == null) {
-                    app.fetchFooterAd(res[0].url, res[0].url.split("/").pop(), res[0].timestamp.toString(), res[0].call, res[0].link);
+                        app.fetchFooterAd(res[0].url, res[0].url.split("/").pop(), res[0].timestamp.toString(), res[0].call, res[0].link);
                     } else {
                         if(JSON.parse(localStorage.getItem("footerAdImg")).timestamp != res[0].timestamp) {
                             app.fetchFooterAd(res[0].url, res[0].url.split("/").pop(), res[0].timestamp.toString(), res[0].call, res[0].link);
