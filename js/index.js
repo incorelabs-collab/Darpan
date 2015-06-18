@@ -24,6 +24,14 @@ var app = {
         app.db = app.getAppDb();
         app.imgDb = app.getImgDb();
         navigator.splashscreen.show();
+        if(localStorage.getItem("secondAdImg") != null) {
+            var imgDir = localStorage.getItem("imgDir");
+            $("body").append("<img src='"+imgDir+JSON.parse(localStorage.getItem("secondAdImg")).url+"' id='startup_splash' />");
+            setTimeout(function () {
+                navigator.splashscreen.hide();
+                $('#startup_splash').remove();
+            }, 6000);
+        }
         document.addEventListener('backbutton', app.onBackKeyDown, false);
         localStorage.removeItem("openModal");
         localStorage.removeItem('backLog');
@@ -32,10 +40,6 @@ var app = {
         setTimeout(function() {
             navigator.splashscreen.hide();
         }, 3000);
-        setTimeout(function () {
-            navigator.splashscreen.hide();
-            $('#startup_splash').remove();
-        }, 6000);
         if(app.imgDb.version == -1) {
             app.imgDb.transaction(function (tx) {
                 tx.executeSql("CREATE TABLE IF NOT EXISTS profile_pic (filename TEXT NOT NULL, timestamp TEXT NOT NULL)",[],
@@ -48,6 +52,7 @@ var app = {
         }
         localStorage.setItem("hitImageServer",false);
         localStorage.setItem("hitFooterAdServer",false);
+        localStorage.setItem("hitSecondAdServer",false);
         app.checkConnection();
     },
     checkConnection: function () {
@@ -118,6 +123,7 @@ var app = {
             // Internet BUT Data is Up to Date.
             app.getImageAssets();
             app.getFooterAd();
+            app.getSecondAd();
             if(app.getBoolean(localStorage.getItem("isUserLoggedIn")) != true) {
                 app.displayPage("login.html");
             } else {
@@ -192,6 +198,26 @@ var app = {
             }
         });
     },
+    getSecondAd: function() {
+        var urlImages = 'http://darpan.incorelabs.com/adTwo/file-list.php?key=kamlesh';
+        var dirReference = app.getDirectoryReference();
+        dirReference.done(function(imgDir) {
+            app.imgDir = imgDir;
+            if(app.getBoolean(localStorage.getItem("hitSecondAdServer")) != true){
+                // Once per app server hit.
+                $.getJSON(urlImages).done(function(res) {
+                    if(localStorage.getItem("secondAdImg") == null) {
+                        app.fetchSecondAd(res[0].url, res[0].url.split("/").pop(), res[0].timestamp.toString());
+                    } else {
+                        if(JSON.parse(localStorage.getItem("secondAdImg")).timestamp != res[0].timestamp) {
+                            app.fetchSecondAd(res[0].url, res[0].url.split("/").pop(), res[0].timestamp.toString());
+                        }
+                    }
+                    localStorage.setItem("hitSecondAdServer",true);
+                });
+            }
+        });
+    },
     doOfflineTasks: function() {
         if(localStorage.getItem('dbLocalVersion') == -1) {
             // NO Internet NO Data.
@@ -232,6 +258,7 @@ var app = {
             if(app.requestStatus.every(app.validateRequest)) {
                 app.getImageAssets();
                 app.getFooterAd();
+                app.getSecondAd();
                 app.dbChangeVersion(0, localStorage.getItem('dbLocalVersion'), localStorage.getItem('dbCurrentOnline'));
                 if(app.getBoolean(localStorage.getItem("isUserLoggedIn")) != true) {
                     app.displayPage("login.html");
@@ -284,6 +311,17 @@ var app = {
             function(entry) {
                 var footerAdImg = {url:filename, timestamp:timestamp, call: call, link: link};
                 localStorage.setItem("footerAdImg",JSON.stringify(footerAdImg));
+            },
+            app.fileSystemError
+        );
+    },
+    fetchSecondAd: function(url, filename, timestamp) {
+        var localFileURL = app.imgDir.toURL() + filename;
+        var ft = new FileTransfer();
+        ft.download(url, localFileURL,
+            function(entry) {
+                var secondAdImg = {url:filename, timestamp:timestamp};
+                localStorage.setItem("secondAdImg",JSON.stringify(secondAdImg));
             },
             app.fileSystemError
         );
